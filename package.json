@@ -8,6 +8,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "node-sass": "^8.0.0",
+    "sass-loader": "^13.2.1",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6"
   },
@@ -15,6 +17,7 @@
     "@vitejs/plugin-vue": "^4.0.0",
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.21",
+    "sass": "^1.59.3",
     "tailwindcss": "^3.2.7",
     "vite": "^4.1.4"
   }

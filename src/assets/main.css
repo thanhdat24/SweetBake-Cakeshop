@@ -1,3 +1,105 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.container {
+  width: 90%;
+  max-width: 1411px;
+  margin: 0 auto;
+}
+
+.container-element {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+h1 {
+  margin-bottom: 0;
+}
+h3 {
+  margin: 25px 0;
+  color: #ec455a;
+  font-size: 25px;
+  font-weight: bold;
+  line-height: 0;
+  font-family: "Nunito", sans-serif;
+}
+h5 {
+  color: #ec455a;
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 0;
+  font-family: "Roboto", sans-serif;
+}
+
+h6 {
+  font-size: 18px;
+  margin: 10px 0;
+}
+a {
+  text-decoration: none;
+  color: #4b4b4b;
+}
+p.error {
+  color: #ff4842;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.1;
+  font-family: "Nunito", sans-serif;
+
+  margin-top: 3px;
+  margin-right: 14px;
+  margin-left: 17px;
+  font-style: oblique;
+}
+.invalid-feedback {
+  color: #ff4842;
+  font-size: 15px;
+  font-weight: bold;
+  line-height: 1.1;
+  font-family: "Nunito", sans-serif;
+
+  margin-top: 3px;
+  margin-left: 17px;
+  font-style: oblique;
+}
+.back__home {
+  position: absolute;
+  bottom: 0;
+  left: 0px;
+  transform: translateY(46px);
+}
+.back__home i {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.back__home a {
+  display: flex;
+  align-items: center;
+  padding: 6px 8px;
+  color: #000000 !important;
+  font-weight: 600;
+}
+.back__home a:hover {
+  background-color: rgba(145, 158, 171, 0.08);
+  border-radius: 8px;
+  padding: 6px 8px;
+  color: #000000;
+}
+
+.disabled a {
+  color: rgba(145, 158, 171, 0.8) !important;
+  box-shadow: none !important;
+  background-color: rgba(145, 158, 171, 0.24) !important;
+  pointer-events: none;
+  cursor: default;
+}
+
+.disabled button {
+  color: rgba(145, 158, 171, 0.8) !important;
+  box-shadow: none !important;
+  background-color: rgba(145, 158, 171, 0.24) !important;
+  pointer-events: none;
+  cursor: default;
+}
