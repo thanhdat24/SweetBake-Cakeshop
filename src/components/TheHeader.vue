@@ -2,7 +2,7 @@
   <header>
     <div class="main-header pt-3">
       <div class="px-9 py-1 header">
-        <a href="?page=home" class="header__logo">
+        <RouterLink to="/" class="header__logo">
           <img
             src="../assets/book.png"
             alt="logo"
@@ -12,7 +12,7 @@
             Dat's <br />
             Bakery
           </h1>
-        </a>
+        </RouterLink>
         <form class="header__search" action="?page=search" method="post">
           <input type="text" name="key" placeholder="Tìm kiếm bánh..." /><input
             type="image"
@@ -24,23 +24,23 @@
 
         <div class="header__user flex items-center justify-center">
           <div class="header__user__cart !mr-14">
-            <a href="?page=cart"><i class="bi bi-handbag"></i></a>
+            <RouterLink to="/cart"><i class="bi bi-handbag"></i></RouterLink>
             <span class="header__user__cart__badge">0</span>
           </div>
           <!-- <?php if (isLogin()) : ?> -->
-          <a
+          <RouterLink
             class="header__user__username flex items-center"
-            href="?page=profile"
+            to="/profile"
             v-if="!userLogin.user"
           >
             <span class="mr-4">Lê Thành Đạt</span>
             <div class="header__user__avatar">
               <img src="../assets/dat-avatar.jpg" alt="User Avatar" />
               <div class="header__user__logout">
-                <a href="?page=logout">Đăng xuất</a>
+                <RouterLink to="/logout">Đăng xuất</RouterLink>
               </div>
             </div>
-          </a>
+          </RouterLink>
           <!-- <?php else : ?> -->
           <div class="header__login-button" v-if="userLogin.user">
             <a href="?page=login"
@@ -59,7 +59,7 @@
 </template>
 <script>
 import { ref } from "vue";
-
+import { RouterLink } from "vue-router";
 export default {
   setup() {
     const userLogin = ref("");

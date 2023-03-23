@@ -1,0 +1,427 @@
+<template lang="">
+  <div class="main-content-products">
+    <div class="container">
+      <form action="?page=cart&action=update" method="POST">
+        <h3 class="title mt-5 text-center">Giỏ hàng</h3>
+        <div class="products-cart">
+          <div class="products-cart__book">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Sản phẩm</th>
+                  <th>Đơn giá</th>
+                  <th>Số lượng</th>
+                  <th>Thành tiền</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="product-item">
+                <tr class="product-item-cart" data-id="1">
+                  <CartItem />
+                </tr>
+              </tbody>
+            </table>
+            <hr />
+            <div class="products-cart__book__update mt-2">
+              <RouterLink to="/" class="products-cart__book__update__back"
+                ><i class="fa fa-angle-left mr-2 mt-1"></i>Tiếp tục mua
+                sắm</RouterLink
+              >
+            </div>
+          </div>
+          <div class="products-cart__totals">
+            <div class="heading">Tóm tắt đơn hàng</div>
+
+            <div class="sub-totals flex items-center justify-between">
+              <span>Tạm tính</span>
+              <span id="subtotal" class="subtotal">123123</span>
+            </div>
+            <div class="discount flex items-center justify-between">
+              <span>Giảm giá</span>
+              <span class="subtotal">-</span>
+            </div>
+            <div class="shipping flex items-center justify-between">
+              <span>Shipping</span>
+              <span class="subtotal">Free</span>
+            </div>
+            <div class="total flex items-center justify-between">
+              <span> Tổng cộng</span>
+              <span id="total-product" class="total-product">123123</span>
+            </div>
+            <div class="coupon flex items-center justify-between">
+              <input type="text" placeholder="Nhập mã giảm giá (Nếu có)" />
+              <div class="coupon-btn">
+                <span class="text-3xl">Áp dụng</span>
+              </div>
+            </div>
+            <div class="checkout">
+              <RouterLink to="/checkout" class="btn btn--primary btn-checkout"
+                >Mua hàng
+                <i class="bi bi-chevron-right"></i>
+              </RouterLink>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</template>
+<script>
+import { RouterLink } from "vue-router";
+import CartItem from "../components/CartItem.vue";
+export default {
+  components: { CartItem },
+};
+</script>
+<style lang="scss">
+.main-content-products {
+  .container {
+    max-width: 1335px;
+    padding: 0 15px;
+    margin: 0 auto;
+    .products-cart {
+      margin-top: 15px;
+      display: grid;
+      grid-template-columns: 2.3fr 1fr;
+      justify-items: center;
+      gap: 20px;
+      &__book {
+        width: 100%;
+        padding: 14px 20px;
+        background-color: rgb(255, 255, 255);
+        color: rgb(33, 43, 54);
+        transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        background-image: none;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.17);
+        border-radius: 16px;
+        z-index: 0;
+        margin-bottom: 24px;
+        .heading-cart {
+          font-size: 30px;
+        }
+
+        .control {
+          border-radius: 4px;
+          background-color: #f5f5f5;
+          display: inline-flex;
+          padding: 0px 5px;
+          padding-top: 5px;
+
+          input {
+            width: 80px;
+            padding: 5px 10px;
+            outline: none;
+            border-radius: 8px;
+            border: 2px solid rgb(228, 228, 228);
+            transition: all 200ms ease-out;
+            &:focus {
+              border: 2px solid #ec455b8c;
+              transition: all 200ms ease-in;
+            }
+          }
+
+          a {
+            display: block;
+
+            i {
+              font-size: 24px;
+              font-weight: 700;
+            }
+          }
+        }
+
+        .trash {
+          cursor: pointer;
+          padding: 8px;
+          border-radius: 50%;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          &:hover {
+            background-color: rgba(99, 115, 129, 0.08);
+          }
+        }
+
+        table.table {
+          width: 100%;
+          border-collapse: collapse;
+          thead {
+            color: rgb(99, 115, 129);
+            background-color: rgb(244, 246, 248);
+          }
+          thead,
+          tfoot {
+            tr {
+              td {
+                padding: 20px 12px;
+              }
+            }
+          }
+          thead,
+          tbody {
+            padding-top: 10px;
+            tr {
+              padding-bottom: 10px;
+              .heading-product {
+                color: #4b4b4b;
+                font-size: 15px;
+                font-weight: 600;
+                line-height: 1.3;
+                font-family: "Nunito", sans-serif;
+              }
+
+              th:first-child {
+                border-top-left-radius: 8px;
+                border-bottom-left-radius: 8px;
+                box-shadow: rgb(255, 255, 255) 8px, 0px, 0px, inset;
+              }
+              th:last-of-type {
+                border-top-right-radius: 8px;
+                border-bottom-right-radius: 8px;
+                box-shadow: rgb(255, 255, 255) -8px, 0px, 0px, inset;
+              }
+              th:nth-of-type(2),
+              :nth-of-type(4),
+              :nth-of-type(3) {
+                white-space: nowrap;
+              }
+              th,
+              td {
+                border-right: 0;
+                border-top: 0;
+                border-bottom: 0;
+                padding: 20px 15px;
+                text-align: left;
+                vertical-align: middle;
+              }
+
+              td {
+                font-size: 16px;
+                vertical-align: middle;
+                &:last-child {
+                  color: #ec455a;
+                  font-weight: bold;
+                }
+                .product-item-cart__image {
+                  width: 199px;
+                  height: 150px;
+                  margin-right: 10px;
+                  border-radius: 16px;
+                  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.16);
+                  object-fit: cover;
+                }
+              }
+            }
+          }
+          #product-item tr:hover {
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.17);
+            border-radius: 16px;
+          }
+        }
+        &__update {
+          display: flex;
+          text-align: center;
+          justify-content: space-between;
+          margin-bottom: 10px;
+          &__back {
+            display: flex;
+            align-items: center;
+            padding: 6px 8px;
+            color: #000 !important;
+            font-weight: 600;
+            i {
+              font-size: 20px;
+              font-weight: 600;
+            }
+            &:hover {
+              background-color: rgba(145, 158, 171, 0.08);
+              border-radius: 8px;
+              padding: 6px 8px;
+              color: #000;
+            }
+          }
+        }
+      }
+      .products-cart__totals {
+        font-weight: 700;
+        width: 100%;
+        padding: 0 20px;
+        background-color: rgb(255, 255, 255);
+        color: rgb(33, 43, 54);
+        transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        background-image: none;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.17);
+        border-radius: 16px;
+        z-index: 0;
+        height: fit-content;
+        margin-bottom: 24px;
+        .heading {
+          margin: 40px 0 30px;
+          font-size: 25px;
+        }
+
+        .sub-totals,
+        .discount,
+        .shipping {
+          padding: 15px 0px;
+
+          color: rgb(99, 115, 129);
+          font-size: 16px;
+          font-weight: 500;
+          line-height: normal;
+          font-family: "Nunito", sans-serif;
+          .subtotal {
+            color: #212b36;
+            font-weight: 500;
+          }
+        }
+        .shipping {
+          border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .total {
+          font-size: 20px;
+          padding: 15px 0px;
+
+          span {
+            &:last-child {
+              color: #ec455a;
+            }
+          }
+        }
+        .coupon {
+          line-height: 1.4375em;
+          font-size: 1rem;
+          font-family: "Public Sans", sans-serif;
+          font-weight: 400;
+          color: rgb(33, 43, 54);
+          box-sizing: border-box;
+          cursor: text;
+          display: inline-flex;
+          align-items: center;
+          width: 100%;
+          position: relative;
+          border-radius: 8px;
+          padding-right: 14px;
+          border: 1px solid rgba(145, 158, 171, 0.32);
+          &:hover {
+            border: 1px solid #000;
+          }
+          &:focus {
+            border: 1px solid #c83245;
+          }
+          input {
+            font: inherit;
+            letter-spacing: inherit;
+            color: currentcolor;
+            border: 0px;
+            box-sizing: content-box;
+            background: none;
+            height: 1.4375em;
+            margin: 0px;
+            -webkit-tap-highlight-color: transparent;
+            display: block;
+            min-width: 0px;
+            width: 100%;
+            animation-duration: 10ms;
+            padding: 16.5px 0px 16.5px 14px;
+            font-size: 15px;
+          }
+          &-btn {
+            display: flex;
+            height: 0.01em;
+            max-height: 2em;
+            align-items: center;
+            white-space: nowrap;
+            color: rgb(99, 115, 129);
+            margin-left: 8px;
+            span {
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              position: relative;
+              box-sizing: border-box;
+              background-color: transparent;
+              outline: 0px;
+              border: 0px;
+              margin: 0px -4px 0px 0px;
+              cursor: pointer;
+              user-select: none;
+              vertical-align: middle;
+              appearance: none;
+              text-decoration: none;
+              font-weight: bold;
+              line-height: 1.71429;
+              font-size: 1.3rem;
+              text-transform: capitalize;
+              min-width: 64px;
+              padding: 6px 8px;
+              border-radius: 8p;
+              transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1)
+                  0ms,
+                box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+                border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+                color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+              color: #ec455a;
+              &:hover {
+                text-decoration: none;
+                background-color: rgba(212, 23, 48, 0.123);
+              }
+            }
+          }
+        }
+        .checkout {
+          padding: 10px 0px;
+          align-items: center;
+          display: flex;
+          width: 100%;
+          text-align: center;
+          .btn-checkout {
+            box-shadow: rgba(171, 0, 37, 0.24) 0px 8px 16px;
+          }
+          a {
+            padding: 10px 20px;
+            width: 100%;
+          }
+        }
+      }
+
+      &__book__empty {
+        width: 96%;
+        height: 68%;
+        padding: 14px 20px;
+        transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.17);
+        border-radius: 16px;
+        z-index: 0;
+        margin-bottom: 24px;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+        img {
+          width: 100%;
+          height: 57%;
+          margin-bottom: 15px;
+        }
+        p {
+          margin: 0px;
+          line-height: 1.57143;
+          font-size: 16px;
+          font-weight: 400;
+          color: rgb(99, 115, 129);
+        }
+      }
+      .totals__empty {
+        height: 70%;
+      }
+    }
+  }
+}
+</style>
