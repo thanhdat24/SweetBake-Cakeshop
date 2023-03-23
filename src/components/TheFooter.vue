@@ -42,6 +42,10 @@ export default {};
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  h5 {
+    color: var(--color-primary);
+    font-weight: bold;
+  }
   & > *:not(:last-child) {
     margin-bottom: 20px;
   }
