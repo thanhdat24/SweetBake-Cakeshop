@@ -7,6 +7,10 @@ const cors = require("cors");
 
 const app = express();
 
+// 2)
+const categoryRouters = require("./routers/categoryRouters");
+const cakeRouters = require("./routers/cakeRouters");
+
 // Serving static files
 app.use(express.static(path.join(__dirname, "./public")));
 
@@ -24,7 +28,9 @@ app.use((req, res, next) => {
   next();
 });
 
-// 2) Router
+// 3) Router
+app.use("/api/v1/categories", categoryRouters);
+app.use("/api/v1/cakes", cakeRouters);
 
 // trả về đường dẫn not found
 app.all("*", (req, res, next) => {
