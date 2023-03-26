@@ -3,16 +3,29 @@
     <section class="container category">
       <h3 class="title">Experience Flavours</h3>
       <ul class="category__items">
-        <CategoryItem />
+        <CategoryItem
+          v-for="(category, index) in categoryList"
+          :key="index"
+          :category="category"
+        />
       </ul>
     </section>
   </div>
 </template>
 <script>
+import { computed } from "vue";
+import { useStore } from "vuex";
 import CategoryItem from "../components/CategoryItem.vue";
 export default {
   components: {
     CategoryItem,
+  },
+  setup() {
+    const store = useStore();
+    const categoryList = computed(() => store.state.categories.categoryList);
+    return {
+      categoryList,
+    };
   },
 };
 </script>

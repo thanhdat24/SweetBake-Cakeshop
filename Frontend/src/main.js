@@ -1,11 +1,16 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import router from './router'
+import { createApp } from "vue";
+import App from "./App.vue";
+import router from "./router";
 
-import './assets/main.css'
+import store from "./store";
+import "./assets/main.css";
 
-const app = createApp(App)
+// Load variables from .env file
 
-app.use(router)
+const app = createApp(App);
 
-app.mount('#app')
+app.use(store);
+
+app.use(router);
+
+app.mount("#app");

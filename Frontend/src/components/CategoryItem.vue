@@ -1,16 +1,34 @@
 <template lang="">
   <li>
-    <a
-      class="category__item"
-    >
-      <img class="category__item-image" src="../assets/cakes/1.1.jpg" />
-      <h6 class="category__item-name">Chocolate</h6>
-      <p class="category__item-description">A tast of tropics</p>
-    </a>
+    <RouterLink class="category__item" :to="getCategoryLink()">
+      <img
+        class="category__item-image"
+        :src="`/src/assets/categories/${category.name
+          .replace(/\s+/g, '')
+          .toLowerCase()}.jfif`"
+      />
+      <h6 class="category__item-name">
+        {{ category.name }}
+      </h6>
+      <p class="category__item-description">{{ category.description }}</p>
+    </RouterLink>
   </li>
 </template>
 <script>
-export default {};
+import { paramCase } from "change-case";
+export default {
+  props: {
+    category: {
+      type: Object,
+    },
+  },
+  setup(props) {
+    const getCategoryLink = () => {
+      return `/category/${paramCase(props.category.name)}`;
+    };
+    return { getCategoryLink };
+  },
+};
 </script>
 <style lang="css">
 .category__item {

@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
 import CakeDetail from "../views/CakeDetail.vue";
+import CategoryDetail from "../views/CakeCategoryDetail.vue";
 import Cart from "../views/Cart.vue";
 import Checkout from "../views/Checkout.vue";
 
@@ -13,9 +14,9 @@ const router = createRouter({
       component: Home,
     },
     {
-      path: "/:name",
-      name: "cake-detail",
-      component: CakeDetail,
+      path: "/category/:categoryName",
+      name: "category-detail",
+      component: CategoryDetail,
     },
     {
       path: "/cart",
