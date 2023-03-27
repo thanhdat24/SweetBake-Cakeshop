@@ -53,6 +53,12 @@ cakeSchema.pre(/^find/, function (next) {
   next();
 });
 
+cakeSchema.virtual("cakeImages", {
+  ref: "CakeImages",
+  foreignField: "cakeId",
+  localField: "_id",
+});
+
 const Cake = mongoose.model("Cake", cakeSchema);
 
 module.exports = Cake;

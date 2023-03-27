@@ -8,10 +8,13 @@ router
   .post(cakeController.createCake)
   .get(cakeController.getAllCake);
 
-router
-  .route("/:cakeId")
-  .delete(cakeController.deleteCake)
-  .get(cakeController.getDetailCake)
-  .put(cakeController.updateCake);
+router.route("/getCakeDetail").get(cakeController.getCakeDetail);
+// router
+//   .route("/:cakeId")
+//   .delete(cakeController.deleteCake)
+//   .get(cakeController.getDetailCake)
+//   .put(cakeController.updateCake);
+
+router.route("/getCakeByCate").get(cakeController.getCakeByCategory);
 
 module.exports = router;

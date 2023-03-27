@@ -10,6 +10,7 @@ const app = express();
 // 2)
 const categoryRouters = require("./routers/categoryRouters");
 const cakeRouters = require("./routers/cakeRouters");
+const cakeImagesRouters = require("./routers/cakeImagesRouters");
 
 // Serving static files
 app.use(express.static(path.join(__dirname, "./public")));
@@ -31,6 +32,9 @@ app.use((req, res, next) => {
 // 3) Router
 app.use("/api/v1/categories", categoryRouters);
 app.use("/api/v1/cakes", cakeRouters);
+app.use("/api/v1/cakeImages", cakeImagesRouters);
+
+
 
 // trả về đường dẫn not found
 app.all("*", (req, res, next) => {

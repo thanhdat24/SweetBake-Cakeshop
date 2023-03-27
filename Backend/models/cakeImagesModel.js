@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const cakeImagesSchema = new mongoose.Schema(
   {
     url: {
-      type: Array,
+      type: String,
       required: [true, "Please tell us url"],
       trim: true,
     },
@@ -24,6 +24,7 @@ const cakeImagesSchema = new mongoose.Schema(
 cakeImagesSchema.pre(/^find/, function (next) {
   this.populate({
     path: "cakeId",
+    select: "name",
   });
 
   next();
