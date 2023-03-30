@@ -68,9 +68,14 @@
 </template>
 <script>
 import { RouterLink } from "vue-router";
+import { useStore } from "vuex";
 import CartItem from "../components/CartItem.vue";
 export default {
   components: { CartItem },
+  setup() {
+    const store = useStore();
+    store.dispatch("auths/loadUser");
+  },
 };
 </script>
 <style lang="scss">

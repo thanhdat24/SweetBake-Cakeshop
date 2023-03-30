@@ -26,8 +26,11 @@ const userSchema = new mongoose.Schema(
     },
     gender: {
       type: String,
-      required: [true, "Please tell us your gender"],
       enum: ["Nam", "Nữ"],
+      // allowNull: true,
+    },
+    address: {
+      type: String,
       // allowNull: true,
     },
     email: {

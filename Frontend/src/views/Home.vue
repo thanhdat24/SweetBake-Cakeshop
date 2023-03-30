@@ -24,7 +24,9 @@ export default {
 
   setup() {
     const store = useStore();
+    store.dispatch("auths/loadUser");
     store.dispatch("categories/getCategoryListAction");
+    store.dispatch("cakes/getAllCakeListAction");
   },
 };
 </script>

@@ -43,6 +43,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     displayName: req.body.displayName,
     phoneNumber: req.body.phoneNumber,
     gender: req.body.gender,
+    address: req.body.address,
     email: req.body.email,
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
@@ -63,7 +64,7 @@ exports.login = catchAsync(async (req, res, next) => {
   // 2) Check if user exists && password is correct
   const user = await User.findOne({ email }).select("+password");
   if (!user || !(await user.correctPassword(password, user.password))) {
-    return next(new AppError("Email hoặc mật khẩu không chính xác!", 401));
+    return next(new AppError("Email or password is incorrect!", 401));
   }
   // 3) If everything ok, send token to client
   createSendToken(user, 200, res);

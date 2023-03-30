@@ -19,14 +19,17 @@
         </p>
       </div>
       <div>
-        <div class="best-seller__item-info__price">200000</div>
-        <div class="best-seller__item-info__original-price">250000</div>
+        <div class="best-seller__item-info__price">20000</div>
+        <div class="best-seller__item-info__original-price">
+          250000
+        </div>
       </div>
       <button class="btn btn--primary">Add to cart +</button>
     </div>
   </div>
 </template>
 <script>
+
 export default {};
 </script>
 <style lang="css">

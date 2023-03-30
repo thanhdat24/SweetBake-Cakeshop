@@ -45,9 +45,14 @@
   </div>
 </template>
 <script>
+import { useStore } from "vuex";
 import CheckoutItem from "../components/CheckoutItem.vue";
 export default {
   components: { CheckoutItem },
+  setup() {
+    const store = useStore();
+    store.dispatch("auths/loadUser");
+  },
 };
 </script>
 <style lang="scss">
