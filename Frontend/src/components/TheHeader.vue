@@ -1,18 +1,10 @@
 <template lang="">
   <header>
     <div class="main-header pt-3">
-      <div class="px-9 py-1 header">
-        <RouterLink to="/" class="header__logo">
-          <img
-            src="../assets/book.png"
-            alt="logo"
-            style="width: 64px; height: 64px"
-          />
-          <h1 class="header__name">
-            Dat's <br />
-            Bakery
-          </h1>
-        </RouterLink>
+      <div class="px-32 py-1 header">
+        <router-link to="/" class="header__logo">
+          <img src="../assets/logo.png" alt="logo" />
+        </router-link>
         <form class="header__search" action="?page=search" method="post">
           <input type="text" name="key" placeholder="Tìm kiếm bánh..." /><input
             type="image"
@@ -24,46 +16,89 @@
 
         <div class="header__user flex items-center justify-center">
           <div class="header__user__cart !mr-14">
-            <RouterLink to="/cart"><i class="bi bi-handbag"></i></RouterLink>
+            <router-link to="/cart"><i class="bi bi-handbag"></i></router-link>
             <span class="header__user__cart__badge">0</span>
           </div>
-          <!-- <?php if (isLogin()) : ?> -->
-          <RouterLink
-            class="header__user__username flex items-center"
-            to="/profile"
-            v-if="!userLogin.user"
+          <n-dropdown
+            :options="options"
+            v-if="userLogin"
+            size="huge"
+            @select="handleSelect"
           >
-            <span class="mr-4">Lê Thành Đạt</span>
-            <div class="header__user__avatar">
-              <img src="../assets/dat-avatar.jpg" alt="User Avatar" />
-              <div class="header__user__logout">
-                <RouterLink to="/logout">Đăng xuất</RouterLink>
+            <div class="relative">
+              <div class="header__user__username flex items-center">
+                <span class="mr-4">{{ userLogin.displayName }}</span>
+                <div class="header__user__avatar relative">
+                  <img :src="userLogin.photoURL" :alt="userLogin.displayName" />
+                </div>
               </div>
             </div>
-          </RouterLink>
-          <!-- <?php else : ?> -->
-          <div class="header__login-button" v-if="userLogin.user">
-            <a href="?page=login"
+          </n-dropdown>
+
+          <div class="header__login-button" v-else>
+            <router-link to="/login"
               ><button
                 class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 border border-red-700 rounded"
               >
                 Đăng nhập
-              </button></a
+              </button></router-link
             >
           </div>
-          <!-- <?php endif; ?> -->
         </div>
       </div>
     </div>
   </header>
 </template>
 <script>
-import { ref } from "vue";
-import { RouterLink } from "vue-router";
+import { useRouter } from "vue-router";
+import { computed, ref } from "vue";
+import { useStore } from "vuex";
+import { h } from "vue";
+import { NIcon } from "naive-ui";
+import {
+  PersonCircleOutline as UserIcon,
+  LogOutOutline as LogoutIcon,
+} from "@vicons/ionicons5";
+const renderIcon = (icon) => {
+  return () => {
+    return h(NIcon, null, {
+      default: () => h(icon),
+    });
+  };
+};
 export default {
   setup() {
-    const userLogin = ref("");
-    return { userLogin };
+    const router = useRouter();
+    const store = useStore();
+    const userLogin = computed(() => store.state.auths.userLogin);
+    const options = [
+      {
+        label: "Profile",
+        key: "profile",
+        icon: renderIcon(UserIcon),
+      },
+      {
+        label: "Logout",
+        key: "logout",
+        icon: renderIcon(LogoutIcon),
+      },
+    ];
+    const handleLogout = () => {
+      store.dispatch("auths/logoutUser");
+    };
+    const handleSelect = (key) => {
+      if (key === "profile") {
+        router.push("/profile");
+      } else if (key === "logout") {
+        handleLogout();
+      }
+    };
+    return {
+      userLogin,
+      handleLogout,
+      options,
+      handleSelect,
+    };
   },
 };
 </script>
@@ -77,16 +112,8 @@ export default {
       display: flex;
       align-items: center;
       img {
-        width: 64px;
-        height: 64px;
-      }
-      .header__name {
-        margin-left: 20px;
-        color: #ff213d;
-        font-size: 22px;
-        font-weight: bold;
-        line-height: 1.1;
-        font-family: "Poppins", sans-serif;
+        width: 90px;
+        margin-right: 50px;
       }
     }
     .header__search {
@@ -97,17 +124,17 @@ export default {
       position: relative;
       input[type="text"] {
         width: 80%;
+        font-size: 17px;
         height: 42px;
         border: none;
         border-radius: 1.5rem;
-        background-color: rgba(236, 240, 244, 1);
+        background-color: rgba(236, 240, 244, 1) !important;
         outline: none;
         padding: 10px 50px 10px 15px;
         font-family: "Poppins", sans-serif;
         border: solid 2px #ec455b00;
         &:focus {
-          border: solid 2px #ec455b79;
-          transition: all 0.3s ease-in-out;
+          transition: all 0.3s ease-in-out !important;
         }
         &::placeholder {
           color: #8a8a8a;

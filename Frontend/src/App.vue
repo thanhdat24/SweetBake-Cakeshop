@@ -1,5 +1,5 @@
 <script setup>
-import { RouterLink, RouterView } from "vue-router";
+import { RouterView } from "vue-router";
 import TheFooter from "./components/TheFooter.vue";
 import TheHeader from "./components/TheHeader.vue";
 
@@ -19,18 +19,20 @@ const isAdmin = computed(() => route.path.startsWith("/admin"));
 </script>
 
 <template>
-  <div v-if="!isLogin && !isRegister && !isAdmin">
-    <div v-if="showHeader">
-      <TheHeader></TheHeader>
+  <n-message-provider>
+    <div v-if="!isLogin && !isRegister && !isAdmin">
+      <div v-if="showHeader">
+        <TheHeader></TheHeader>
+      </div>
+      <RouterView />
+      <div v-if="showFooter">
+        <TheFooter></TheFooter>
+      </div>
     </div>
-    <RouterView />
-    <div v-if="showFooter">
-      <TheFooter></TheFooter>
+    <div v-else>
+      <RouterView />
     </div>
-  </div>
-  <div v-else>
-    <RouterView />
-  </div>
+  </n-message-provider>
 </template>
 
 <style scoped></style>

@@ -6,12 +6,9 @@ import CakeDetail from "../views/CakeDetail.vue";
 import CategoryDetail from "../views/CakeCategoryDetail.vue";
 import Cart from "../views/Cart.vue";
 import Checkout from "../views/Checkout.vue";
-import Admin from "@/layouts/Admin.vue";
-import Tables from "@/views/admin/Tables.vue";
 
 // views for Admin layout
 
-import Dashboard from "@/views/admin/Dashboard.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -49,29 +46,6 @@ const router = createRouter({
       path: "/cake/:cakeName",
       name: "cake-detail",
       component: CakeDetail,
-    },
-    {
-      path: "/admin",
-      redirect: "/admin/dashboard",
-      component: Admin,
-      children: [
-        {
-          path: "/admin/dashboard",
-          component: Dashboard,
-        },
-        // {
-        //   path: "/admin/settings",
-        //   component: Settings,
-        // },
-        {
-          path: "/admin/tables",
-          component: Tables,
-        },
-        // {
-        //   path: "/admin/maps",
-        //   component: Maps,
-        // },
-      ],
     },
 
     // {

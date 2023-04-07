@@ -42,10 +42,10 @@
         "
       >
         Not a member?
-        <RouterLink
+        <router-link
           to="/register"
           style="font-weight: bold; color: red; margin-left: 5px"
-          >Sign up now</RouterLink
+          >Sign up now</router-link
         >
       </div>
     </Form>

@@ -121,10 +121,10 @@
         "
       >
         Already a member?
-        <RouterLink
+        <router-link
           to="/login"
           style="font-weight: bold; color: red; margin-left: 10px"
-          >Log in</RouterLink
+          >Log in</router-link
         >
       </div>
     </Form>

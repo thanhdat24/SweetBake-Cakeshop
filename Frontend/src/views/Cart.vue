@@ -23,9 +23,9 @@
             </table>
             <hr />
             <div class="products-cart__book__update mt-2">
-              <RouterLink to="/" class="products-cart__book__update__back"
+              <router-link to="/" class="products-cart__book__update__back"
                 ><i class="fa fa-angle-left mr-2 mt-1"></i>Tiếp tục mua
-                sắm</RouterLink
+                sắm</router-link
               >
             </div>
           </div>
@@ -55,10 +55,10 @@
               </div>
             </div>
             <div class="checkout">
-              <RouterLink to="/checkout" class="btn btn--primary btn-checkout"
+              <router-link to="/checkout" class="btn btn--primary btn-checkout"
                 >Mua hàng
                 <i class="bi bi-chevron-right"></i>
-              </RouterLink>
+              </router-link>
             </div>
           </div>
         </div>
@@ -67,7 +67,6 @@
   </div>
 </template>
 <script>
-import { RouterLink } from "vue-router";
 import { useStore } from "vuex";
 import CartItem from "../components/CartItem.vue";
 export default {

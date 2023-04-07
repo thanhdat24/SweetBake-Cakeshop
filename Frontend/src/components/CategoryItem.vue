@@ -1,6 +1,6 @@
 <template lang="">
   <li>
-    <RouterLink class="category__item" :to="getCategoryLink()">
+    <router-link class="category__item" :to="getCategoryLink()">
       <img
         class="category__item-image"
         :src="`/src/assets/categories/${category.name
@@ -11,7 +11,7 @@
         {{ category.name }}
       </h6>
       <p class="category__item-description">{{ category.description }}</p>
-    </RouterLink>
+    </router-link>
   </li>
 </template>
 <script>
