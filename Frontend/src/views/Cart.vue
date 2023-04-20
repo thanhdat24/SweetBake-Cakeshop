@@ -1,79 +1,111 @@
 <template lang="">
   <div class="main-content-products">
     <div class="container">
-      <form action="?page=cart&action=update" method="POST">
-        <h3 class="title mt-5 text-center">Giỏ hàng</h3>
-        <div class="products-cart">
-          <div class="products-cart__book">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Sản phẩm</th>
-                  <th>Đơn giá</th>
-                  <th>Số lượng</th>
-                  <th>Thành tiền</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody id="product-item">
-                <tr class="product-item-cart" data-id="1">
-                  <CartItem />
-                </tr>
-              </tbody>
-            </table>
-            <hr />
-            <div class="products-cart__book__update mt-2">
-              <router-link to="/" class="products-cart__book__update__back"
-                ><i class="fa fa-angle-left mr-2 mt-1"></i>Tiếp tục mua
-                sắm</router-link
-              >
-            </div>
-          </div>
-          <div class="products-cart__totals">
-            <div class="heading">Tóm tắt đơn hàng</div>
-
-            <div class="sub-totals flex items-center justify-between">
-              <span>Tạm tính</span>
-              <span id="subtotal" class="subtotal">123123</span>
-            </div>
-            <div class="discount flex items-center justify-between">
-              <span>Giảm giá</span>
-              <span class="subtotal">-</span>
-            </div>
-            <div class="shipping flex items-center justify-between">
-              <span>Shipping</span>
-              <span class="subtotal">Free</span>
-            </div>
-            <div class="total flex items-center justify-between">
-              <span> Tổng cộng</span>
-              <span id="total-product" class="total-product">123123</span>
-            </div>
-            <div class="coupon flex items-center justify-between">
-              <input type="text" placeholder="Nhập mã giảm giá (Nếu có)" />
-              <div class="coupon-btn">
-                <span class="text-3xl">Áp dụng</span>
-              </div>
-            </div>
-            <div class="checkout">
-              <router-link to="/checkout" class="btn btn--primary btn-checkout"
-                >Mua hàng
-                <i class="bi bi-chevron-right"></i>
-              </router-link>
-            </div>
+      <h3 class="title mt-5 text-center">Giỏ hàng</h3>
+      <div class="products-cart">
+        <div class="products-cart__book">
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="flex justify-center">Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total Price</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="product-item">
+              <CartItem
+                v-for="(cart, index) in cart"
+                :key="index"
+                :cart="cart"
+              />
+            </tbody>
+          </table>
+          <hr />
+          <div class="products-cart__book__update mt-2">
+            <router-link to="/" class="products-cart__book__update__back"
+              ><i class="fa fa-angle-left mr-2 mt-1"></i>Continue
+              Shopping</router-link
+            >
           </div>
         </div>
-      </form>
+        <div class="products-cart__totals">
+          <div class="heading">Order Summary</div>
+
+          <div class="sub-totals flex items-center justify-between">
+            <span>Sub Total</span>
+            <span id="subtotal" class="subtotal">{{
+              formatPriceInVND(total)
+            }}</span>
+          </div>
+          <div class="discount flex items-center justify-between">
+            <span>Discount</span>
+            <span class="subtotal">-</span>
+          </div>
+          <div class="shipping flex items-center justify-between">
+            <span>Shipping</span>
+            <span class="subtotal">Free</span>
+          </div>
+          <div class="total flex items-center justify-between">
+            <span> Total</span>
+            <span id="total-product" class="total-product">{{
+              formatPriceInVND(total)
+            }}</span>
+          </div>
+          <div class="my-5">
+            <n-input-group>
+              <n-input
+                :style="{ width: '100%' }"
+                size="large"
+                placeholder="Nhập mã giảm giá (Nếu có)"
+                class="custom-input"
+              />
+              <n-button type="primary" ghost size="large" class="custom-button">
+                Apply
+              </n-button>
+            </n-input-group>
+          </div>
+          <button class="checkout disabled cursor-default" v-if="disabled">
+            <router-link to="/checkout" class="btn btn--primary btn-checkout"
+              >Check out
+            </router-link>
+          </button>
+          <button class="checkout" v-else>
+            <router-link to="/checkout" class="btn btn--primary btn-checkout"
+              >Check out
+            </router-link>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 <script>
+import { ref, computed } from "vue";
 import { useStore } from "vuex";
 import CartItem from "../components/CartItem.vue";
+import { formatPriceInVND } from "../utils/formatNumber";
 export default {
   components: { CartItem },
   setup() {
     const store = useStore();
+    store.dispatch("carts/getCart");
     store.dispatch("auths/loadUser");
+    const cart = computed(() => store.state.carts.checkout.cart);
+    const total = computed(() => store.state.carts.checkout.total);
+    const subtotal = computed(() => store.state.carts.checkout.subtotal);
+    const totalPrice = ref();
+    const disabled = computed(() => cart.value.length === 0);
+    console.log(disabled.value);
+    return {
+      cart,
+      total,
+      subtotal,
+      totalPrice,
+      formatPriceInVND,
+      disabled,
+    };
   },
 };
 </script>
@@ -297,87 +329,7 @@ export default {
             }
           }
         }
-        .coupon {
-          line-height: 1.4375em;
-          font-size: 1rem;
-          font-family: "Public Sans", sans-serif;
-          font-weight: 400;
-          color: rgb(33, 43, 54);
-          box-sizing: border-box;
-          cursor: text;
-          display: inline-flex;
-          align-items: center;
-          width: 100%;
-          position: relative;
-          border-radius: 8px;
-          padding-right: 14px;
-          border: 1px solid rgba(145, 158, 171, 0.32);
-          &:hover {
-            border: 1px solid #000;
-          }
-          &:focus {
-            border: 1px solid #c83245;
-          }
-          input {
-            font: inherit;
-            letter-spacing: inherit;
-            color: currentcolor;
-            border: 0px;
-            box-sizing: content-box;
-            background: none;
-            height: 1.4375em;
-            margin: 0px;
-            -webkit-tap-highlight-color: transparent;
-            display: block;
-            min-width: 0px;
-            width: 100%;
-            animation-duration: 10ms;
-            padding: 16.5px 0px 16.5px 14px;
-            font-size: 15px;
-          }
-          &-btn {
-            display: flex;
-            height: 0.01em;
-            max-height: 2em;
-            align-items: center;
-            white-space: nowrap;
-            color: rgb(99, 115, 129);
-            margin-left: 8px;
-            span {
-              display: inline-flex;
-              align-items: center;
-              justify-content: center;
-              position: relative;
-              box-sizing: border-box;
-              background-color: transparent;
-              outline: 0px;
-              border: 0px;
-              margin: 0px -4px 0px 0px;
-              cursor: pointer;
-              user-select: none;
-              vertical-align: middle;
-              appearance: none;
-              text-decoration: none;
-              font-weight: bold;
-              line-height: 1.71429;
-              font-size: 1.3rem;
-              text-transform: capitalize;
-              min-width: 64px;
-              padding: 6px 8px;
-              border-radius: 8p;
-              transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1)
-                  0ms,
-                box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
-                border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
-                color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-              color: #ec455a;
-              &:hover {
-                text-decoration: none;
-                background-color: rgba(212, 23, 48, 0.123);
-              }
-            }
-          }
-        }
+
         .checkout {
           padding: 10px 0px;
           align-items: center;
