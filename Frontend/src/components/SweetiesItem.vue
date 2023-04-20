@@ -1,21 +1,42 @@
 <template lang="">
-  <div class="sweeties__item">
+  <router-link :to="`/cake/${cake.slug}`" class="sweeties__item">
     <div class="sweeties__item__img">
-      <img src="../assets/cakes/1.2.jpg" alt="image cake" />
+      <img :src="cake.cakeImages[0].url" :alt="cake.cakeImages[0].caption" />
     </div>
     <div class="sweeties__item__name line-clamp-2">
-      <a>Round Chocolate Truffle Cake</a>
+      <a>{{ cake.name }}</a>
     </div>
-    <div class="sweeties__item__prices">
-      <div class="sweeties__item__price">350000</div>
+    <div class="sweeties__item__prices items-center">
+      <div class="sweeties__item__price">{{ cake.price }}</div>
 
-      <div class="sweeties__item__original-price">430000</div>
+      <div class="sweeties__item__original-price">{{ cake.priceSale }}</div>
     </div>
-    <button class="btn btn--secondary">Add to cart +</button>
-  </div>
+    <button class="btn btn--secondary" @click.prevent="handleAddToCart">
+      Add to cart +
+    </button>
+  </router-link>
 </template>
 <script>
-export default {};
+import { useMessage } from "naive-ui";
+import { useRoute } from "vue-router";
+import { useStore } from "vuex";
+export default {
+  props: {
+    cake: {
+      type: Object,
+    },
+  },
+
+  setup(props) {
+    const store = useStore();
+    const message = useMessage();
+    const handleAddToCart = async () => {
+      await store.dispatch("carts/addToCartAction", props.cake);
+      message.success("Thêm sản phẩm thành công");
+    };
+    return { handleAddToCart };
+  },
+};
 </script>
 <style lang="css">
 .sweeties__item {
@@ -34,9 +55,10 @@ export default {};
 .sweeties__item__img {
   overflow: hidden;
   width: 250px;
-  height: 188px;
+  height: 250px;
   border-radius: 12px;
 }
+
 .sweeties__item:hover {
   box-shadow: 0 0 22px rgba(37, 37, 37, 0.267);
   transition: all 0.3s ease-in;

@@ -24,7 +24,7 @@
           250000
         </div>
       </div>
-      <button class="btn btn--primary">Add to cart +</button>
+      <button class="btn btn--primary" >Add to cart +</button>
     </div>
   </div>
 </template>

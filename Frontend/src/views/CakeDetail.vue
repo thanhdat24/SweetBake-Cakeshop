@@ -3,13 +3,16 @@
   <!-- wrapper detail seller -->
   <section class="main-details-products">
     <div class="container">
-      <h3 class="title mt-5 text-center">Cakes Chocolate</h3>
+      <h3 class="title mt-5 text-center">{{ cakeDetail.name }}</h3>
       <div class="book-detail">
         <div class="book-detail__image">
-          <img src="../assets/cakes/1.2.jpg" alt="" />
+          <img
+            :src="cakeDetail.cakeImages[0].url"
+            :alt="cakeDetail.cakeImages[0].caption"
+          />
         </div>
         <div class="book-detail__info">
-          <div class="book-detail__info__title">Chocolate</div>
+          <div class="book-detail__info__title">{{ cakeDetail.name }}</div>
           <div class="book-detail__info__rate">
             <i class="bi bi-star-fill"></i>
             <i class="bi bi-star-fill"></i>
@@ -21,23 +24,33 @@
               <span> | Đã bán 1000+</span>
             </p>
           </div>
-          <div class="book-detail__info__price">12000</div>
+          <div class="flex items-center">
+            <div class="book-detail__info__price !mr-10">
+              {{ cakeDetail.price }}
+            </div>
+            <div class="book-detail__info__price__sale line-through">
+              {{ cakeDetail.priceSale }}
+            </div>
+          </div>
           <div class="book-detail__info__detail">
-            <p class="book-detail__info__detail__title">Mã sách:</p>
-            <p class="book-detail__info__detail__title">Thể loại:</p>
-            <p>2</p>
-            <p>Hihi</p>
+            <p class="book-detail__info__detail__title">Loại bánh:</p>
+            <p>{{ cakeDetail.categoryId.name }}</p>
           </div>
           <a href="?page=home&action=add&id=<?php echo $item['MSHH'] ?>">
-            <button class="btn btn--primary book-detail__button">
-              <i class="bi bi-handbag"></i> Thêm vào giỏ +
+            <button
+              class="btn btn--primary book-detail__button"
+              @click.prevent="handleAddToCart(cakeDetail)"
+            >
+              Add to cart +
             </button>
           </a>
         </div>
       </div>
       <div class="book-detail__content">
         <p class="book-detail__content__title">Sơ lược bánh</p>
-        <p class="book-detail__content__content">DESC</p>
+        <p class="book-detail__content__content">
+          {{ cakeDetail.description }}
+        </p>
       </div>
 
       <h3>Đánh Giá - Nhận Xét Từ Khách Hàng</h3>
@@ -46,7 +59,27 @@
   <!-- end wrapper detail seller-->
 </template>
 <script>
-export default {};
+import { useMessage } from "naive-ui";
+import { computed } from "vue";
+import { useRoute } from "vue-router";
+import { useStore } from "vuex";
+
+export default {
+  setup() {
+    const route = useRoute();
+    const store = useStore();
+    const message = useMessage();
+    const cakeName = route.params.cakeName;
+    store.dispatch("auths/loadUser");
+    store.dispatch("cakes/getCakeDetailAction", cakeName);
+    const cakeDetail = computed(() => store.state.cakes.cakeDetail);
+    const handleAddToCart = async (cakeDetail) => {
+      await store.dispatch("carts/addToCartAction", cakeDetail);
+      message.success("Thêm sản phẩm thành công");
+    };
+    return { cakeDetail, handleAddToCart };
+  },
+};
 </script>
 <style lang="scss">
 .main-details-products {
@@ -110,11 +143,20 @@ export default {};
           line-height: 1.1;
           font-family: "Nunito", sans-serif;
           margin: 10px 0;
+          &__sale {
+            font-weight: 600;
+            font-size: 18px;
+            line-height: 21px;
+            font-family: "Nunito", sans-serif;
+            color: var(--color-content);
+            text-align: center;
+            text-decoration-line: line-through;
+          }
         }
         .book-detail__info__detail {
           margin: 20px 0;
           display: grid;
-          grid-template-rows: 1fr 1fr;
+          grid-template-rows: 2fr;
           grid-auto-flow: column;
           grid-gap: 10px;
           width: 70%;

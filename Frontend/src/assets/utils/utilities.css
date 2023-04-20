@@ -1,0 +1,18 @@
+@layer utilities {
+  .custom-button {
+    --n-border: 1px solid #f3455a !important;
+    --n-text-color: #f3455a !important;
+    --n-text-color-hover: #f3455a !important;
+    --n-border-hover: 1px solid #b62f3f !important;
+    --n-ripple-color: #b62f3f !important;
+    --n-border-focus: 1px solid #b62f3f !important;
+    -n-border-pressed: 1px solid #b62f3f !important;
+    --n-text-color-focus: #b62f3f !important;
+  }
+  .custom-input {
+    --n-border-hover: 1px solid #b62f3f !important;
+    --n-ripple-color: #b62f3f !important;
+    --n-border-focus: 1px solid #b62f3f !important;
+    -n-border-pressed: 1px solid #b62f3f !important;
+  }
+}

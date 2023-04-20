@@ -23,14 +23,12 @@ export default {
   setup() {
     const route = useRoute();
     const store = useStore();
-    const categoryName = route.params.categoryName;
-    console.log("categoryName", categoryName);
-
+    const categoryName = route.params.categoryName;    
+    store.dispatch("auths/loadUser");
     store.dispatch("cakes/getCakeByCategoryListAction", categoryName);
     const cakeByCategoryList = computed(
       () => store.state.cakes.cakeByCategoryList
     );
-    console.log("cakeByCategoryList", cakeByCategoryList);
     return { cakeByCategoryList };
   },
 };

@@ -4,7 +4,11 @@
       <h3 class="title">Sweeties</h3>
 
       <div class="sweeties__items">
-        <SweetiesItem />
+        <SweetiesItem
+          v-for="(cake, index) in cakeList"
+          :key="index"
+          :cake="cake"
+        />
       </div>
 
       <!-- Page number -->
@@ -12,9 +16,19 @@
   </div>
 </template>
 <script>
+import { computed } from "vue";
+import { useStore } from "vuex";
 import SweetiesItem from "../components/SweetiesItem.vue";
 export default {
   components: { SweetiesItem },
+  setup() {
+    const store = useStore();
+    const cakeList = computed(() => store.state.cakes.cakeList);
+    console.log("cakeList", cakeList);
+    return {
+      cakeList,
+    };
+  },
 };
 </script>
 <style lang="css">

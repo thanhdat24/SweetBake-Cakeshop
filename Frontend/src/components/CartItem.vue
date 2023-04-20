@@ -1,47 +1,83 @@
 <template lang="">
-  <td>
-    <div class="product-item-cart__name">
-      <a href="/">
-        <img
-          class="product-item-cart__image"
-          src="../assets/cakes/2.1.jpg"
-          alt=""
-        />
-      </a>
-      <a href="/" class="heading-product"> Chocolate </a>
-    </div>
-  </td>
-  <td>123123</td>
-  <td>
-    <div class="control items-center">
-      <input
-        class="soluong"
-        data-id="1"
-        type="number"
-        name="1"
-        min="1"
-        max="99"
-        value="1"
-      />
-    </div>
-  </td>
-  <td id="total-price-1" class="product-item-cart__total-price">123</td>
-  <td>
-    <a href="?page=cart&action=delete&id=<?php echo $value['MSHH'] ?>">
-      <div class="trash">
-        <span
-          class="iconify"
-          data-icon="eva:trash-2-outline"
-          style="color: #637381"
-          data-width="22"
-          data-height="22"
-        ></span>
+  <tr class="product-item-cart">
+    <td>
+      <div class="product-item-cart__name">
+        <a href="/">
+          <img
+            class="product-item-cart__image"
+            :src="cart.cakeImages?.[0].url"
+            :alt="cart.cakeImages?.[0].caption"
+          />
+        </a>
+        <a href="/" class="heading-product"> {{ cart.name }} </a>
       </div>
-    </a>
-  </td>
+    </td>
+    <td>{{ formatPriceInVND(cart.price) }}</td>
+    <td>
+      <n-input-number
+        v-model:value="quantity"
+        :validator="validator"
+        @update:value="handleChangeQuantity($event, cart)"
+        class="w-32"
+      />
+    </td>
+    <td id="total-price-1" class="product-item-cart__total-price">
+      {{ formatPriceInVND(cart.price * quantity) }}
+    </td>
+    <td>
+      <n-button
+        circle
+        color="rgba(99, 115, 129, 0.08)"
+        @click="handleDeleteCart(cart)"
+      >
+        <n-icon
+          size="22"
+          :component="TrashOutline"
+          class="flex"
+          color="rgb(99, 115, 129)"
+        />
+      </n-button>
+    </td>
+  </tr>
 </template>
 <script>
-export default {};
+import { ref, watch, defineEmits } from "vue";
+import { useMessage } from "naive-ui";
+import { useStore } from "vuex";
+import { formatPriceInVND } from "..//utils/formatNumber";
+import { TrashOutline } from "@vicons/ionicons5";
+export default {
+  props: {
+    cart: {
+      type: Object,
+    },
+  },
+  setup(props) {
+    const message = useMessage();
+    const store = useStore();
+    const quantity = ref(props.cart.quantity);
+    const validator = (x) => x > 0;
+
+    const handleChangeQuantity = async (quantity, cart) => {
+      await store.dispatch("carts/updateQuantityCart", { ...cart, quantity });
+      await store.dispatch("carts/getCart");
+    };
+
+    const handleDeleteCart = async (cart) => {
+      await store.dispatch("carts/deleteCart", cart);
+      await store.dispatch("carts/getCart");
+      message.success("Xóa sản phẩm thành công");
+    };
+    return {
+      quantity,
+      validator,
+      handleChangeQuantity,
+      formatPriceInVND,
+      TrashOutline,
+      handleDeleteCart,
+    };
+  },
+};
 </script>
 <style lang="scss">
 .product-item-cart {

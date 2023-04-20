@@ -1,7 +1,7 @@
 <template lang="">
-  <div class="cake-category__item">
+  <router-link class="cake-category__item" :to="getCakeLink()">
     <div class="cake-category__item__img">
-      <img src="../assets/cakes/2.1.jpg" alt="image cake" />
+      <img :src="cake.cakeImages[0].url" :alt="cake.cakeImages[0].caption" />
     </div>
     <div class="cake-category__item__name line-clamp-2">
       <a>{{ cake.name }}</a>
@@ -13,15 +13,32 @@
         {{ cake.priceSale }}
       </div>
     </div>
-    <button class="btn btn--secondary">Add to cart +</button>
-  </div>
+    <button class="btn btn--secondary" @click.prevent="handleAddToCart">
+      Add to cart +
+    </button>
+  </router-link>
 </template>
 <script>
+import { paramCase } from "change-case";
+import { useMessage } from "naive-ui";
+import { useStore } from "vuex";
 export default {
   props: {
     cake: {
       type: Object,
     },
+  },
+  setup(props) {
+    const store = useStore();
+    const message = useMessage();
+    const getCakeLink = () => {
+      return `/cake/${props.cake.slug}`;
+    };
+    const handleAddToCart = async () => {
+      await store.dispatch("carts/addToCartAction", props.cake);
+      message.success("Thêm sản phẩm thành công");
+    };
+    return { getCakeLink, handleAddToCart };
   },
 };
 </script>
@@ -45,7 +62,7 @@ export default {
 .cake-category__item__img {
   overflow: hidden;
   width: 375px;
-  height: 290px;
+  height: 373px;
   border-radius: 12px;
 }
 .cake-category__item:hover {
