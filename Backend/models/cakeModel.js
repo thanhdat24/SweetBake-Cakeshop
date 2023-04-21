@@ -37,6 +37,10 @@ const cakeSchema = new mongoose.Schema(
       type: mongoose.Schema.ObjectId,
       ref: "Category",
     },
+    quantitySold: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     timestamps: true,
