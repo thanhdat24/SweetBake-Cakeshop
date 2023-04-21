@@ -2,6 +2,7 @@ import { createStore } from "vuex";
 import categories from "./modules/categories";
 import cakes from "./modules/cakes";
 import carts from "./modules/carts";
+import orders from "./modules/orders";
 import settings from "./modules/settings";
 import auths from "./modules/auths";
 export default createStore({
@@ -14,5 +15,6 @@ export default createStore({
     settings,
     auths,
     carts,
+    orders,
   },
 });

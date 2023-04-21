@@ -2,56 +2,102 @@
   <div class="main-content-checkout">
     <div class="container">
       <h3 class="title mt-5 text-center">Thanh toán</h3>
-      <form id="checkout" action="" method="post">
-        <div class="cart-detail">
-          <ul class="cart-detail__book">
-            <CheckoutItem />
-          </ul>
-          <div class="cart-detail__user-info">
-            <div class="cart-detail__user-info__title">Thông tin nhận hàng</div>
-            <div class="cart-detail__user-info__detail">
-              <input hidden type="text" name="MSKH" value="123" />
-              <p><b>Tên người nhận:</b></p>
-              <p class="ml-3">Le Thanh Dat</p>
-              <p><b>Số điện thoại:</b></p>
-              <p class="ml-3">0916671369</p>
-              <div class="cart-detail__user-info__detail__address">
-                <b>Địa chỉ nhận hàng:</b>
-                <div>
-                  <textarea
-                    name="DiaChi"
-                    rows="3"
-                    cols="50"
-                    id="5"
-                    placeholder="Nhập địa chỉ giao hàng của bạn..."
-                  ></textarea>
-                </div>
-              </div>
+      <div class="cart-detail">
+        <ul class="cart-detail__book">
+          <CheckoutItem
+            v-for="(cart, index) in cart"
+            :key="index"
+            :cart="cart"
+          />
+        </ul>
+        <div class="cart-detail__user-info">
+          <div class="cart-detail__user-info__title">Billing Address</div>
+          <div class="cart-detail__user-info__detail">
+            <input hidden type="text" name="MSKH" value="123" />
+            <p><b>Recipient's name:</b></p>
+            <p class="ml-3">{{ userLogin.displayName }}</p>
+            <p><b>Phone number:</b></p>
+            <p class="ml-3">{{ userLogin.phoneNumber }}</p>
+            <div class="cart-detail__user-info__detail__address">
+              <b>Deliver address:</b>
+              <n-input
+                class="mt-3"
+                type="textarea"
+                maxlength="40"
+                show-count
+                placeholder="Enter Deliver address"
+                size="large"
+                v-model:value="address"
+              />
+            </div>
 
-              <div class="cart-detail__user-info__detail__total">
-                <b>Tổng tiền:</b>
-                <b id="total" class="price"> 11111111</b>
-              </div>
-              <div class="cart-detail__user-info__detail__total">
-                <button class="btn btn--primary" name="btn-order">
-                  Đặt mua
-                </button>
-              </div>
+            <div class="cart-detail__user-info__detail__total">
+              <b class="text-2xl">Total Price: </b>
+              <b id="total" class="price text-3xl">
+                {{ formatPriceInVND(total) }}</b
+              >
+            </div>
+            <div class="cart-detail__user-info__detail__total">
+              <button
+                class="btn btn--primary"
+                name="btn-order"
+                @click="handleCreateOrder"
+              >
+                Complete Order
+              </button>
             </div>
           </div>
         </div>
-      </form>
+      </div>
     </div>
   </div>
 </template>
 <script>
+import { computed, ref } from "vue";
 import { useStore } from "vuex";
 import CheckoutItem from "../components/CheckoutItem.vue";
+import { formatPriceInVND } from "../utils/formatNumber";
 export default {
   components: { CheckoutItem },
   setup() {
     const store = useStore();
+    store.dispatch("carts/getCart");
     store.dispatch("auths/loadUser");
+    const address = ref("");
+    const userLogin = computed(() => store.state.auths.userLogin);
+    const cart = computed(() => store.state.carts.checkout.cart);
+    const total = computed(() => store.state.carts.checkout.total);
+    const subtotal = computed(() => store.state.carts.checkout.subtotal);
+    const handleAddress = (value) => {
+      console.log(value);
+    };
+    const handleCreateOrder = () => {
+      let data = {
+        address: {
+          fullName: userLogin.value.displayName,
+          phoneNumber: userLogin.value.phoneNumber,
+          fullAddress: address.value,
+          email: userLogin.value.email,
+        },
+        cart: cart.value.map((item) => {
+          return {
+            cakeId: item.id,
+            quantity: item.quantity,
+          };
+        }),
+        total: total.value,
+      };
+      store.dispatch("orders/createOrderAction", { data });
+    };
+    return {
+      cart,
+      total,
+      subtotal,
+      formatPriceInVND,
+      userLogin,
+      handleCreateOrder,
+      address,
+    };
   },
 };
 </script>
@@ -149,17 +195,6 @@ export default {
           }
           input[type="text"] {
             font-size: 15px;
-          }
-          textarea {
-            width: 100%;
-            border: 2px solid rgb(228, 228, 228);
-            transition: all 200ms ease-out;
-            margin-top: 20px;
-            padding: 7px;
-            &:focus {
-              border: 2px solid #ec455b8c;
-              transition: all 200ms ease-in;
-            }
           }
         }
         &__title {

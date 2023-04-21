@@ -17,7 +17,7 @@
         <div class="header__user flex items-center justify-center">
           <div class="header__user__cart !mr-14">
             <router-link to="/cart"><i class="bi bi-handbag"></i></router-link>
-            <span class="header__user__cart__badge">0</span>
+            <span class="header__user__cart__badge">{{ cart.length }}</span>
           </div>
           <n-dropdown
             :options="options"
@@ -70,7 +70,9 @@ export default {
   setup() {
     const router = useRouter();
     const store = useStore();
+    store.dispatch("carts/getCart");
     const userLogin = computed(() => store.state.auths.userLogin);
+    const cart = computed(() => store.state.carts.checkout.cart);
     const options = [
       {
         label: "Profile",
@@ -98,6 +100,7 @@ export default {
       handleLogout,
       options,
       handleSelect,
+      cart,
     };
   },
 };

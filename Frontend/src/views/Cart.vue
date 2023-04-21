@@ -3,27 +3,28 @@
     <div class="container">
       <h3 class="title mt-5 text-center">Giỏ hàng</h3>
       <div class="products-cart">
-        <div class="products-cart__book">
-          <table class="table">
-            <thead>
-              <tr>
-                <th class="flex justify-center">Product</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Total Price</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody id="product-item">
-              <CartItem
-                v-for="(cart, index) in cart"
-                :key="index"
-                :cart="cart"
-              />
-            </tbody>
-          </table>
-          <hr />
-          <div class="products-cart__book__update mt-2">
+        <div>
+          <div class="products-cart__book">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th class="flex justify-center">Product</th>
+                  <th>Price</th>
+                  <th>Quantity</th>
+                  <th>Total Price</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="product-item">
+                <CartItem
+                  v-for="(cart, index) in cart"
+                  :key="index"
+                  :cart="cart"
+                />
+              </tbody>
+            </table>
+          </div>
+          <div class="products-cart__book__update">
             <router-link to="/" class="products-cart__book__update__back"
               ><i class="fa fa-angle-left mr-2 mt-1"></i>Continue
               Shopping</router-link
@@ -133,7 +134,7 @@ export default {
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.17);
         border-radius: 16px;
         z-index: 0;
-        margin-bottom: 24px;
+        margin-bottom: 20px;
         .heading-cart {
           font-size: 30px;
         }

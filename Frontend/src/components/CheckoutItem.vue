@@ -3,22 +3,36 @@
     <a href=""
       ><img
         class="cart-detail__book__item__image"
-        src="../assets/cakes/1.2.jpg"
-        alt=""
+        :src="cart.cakeImages?.[0].url"
+        :alt="cart.cakeImages?.[0].caption"
       />
     </a>
     <div class="cart-detail__book__item__info">
-      <a href="1" class="cart-detail__book__item__info__title"> Chocolate </a>
+      <a href="1" class="cart-detail__book__item__info__title">
+        {{ cart.name }}
+      </a>
       <input type="number" hidden id="1" value="2000" />
-      <p class="cart-detail__book__item__info__price">500000đ</p>
+      <p class="cart-detail__book__item__info__price">
+        {{ formatPriceInVND(cart.price) }}
+      </p>
       <label class="cart-detail__book__item__info__number" for="2"
-        >Số lượng: 5</label
+        >Số lượng: {{ cart.quantity }}</label
       >
     </div>
   </li>
 </template>
 <script>
-export default {};
+import { formatPriceInVND } from "../utils/formatNumber";
+export default {
+  props: {
+    cart: {
+      type: Object,
+    },
+  },
+  setup(props) {
+    return { formatPriceInVND };
+  },
+};
 </script>
 <style lang="scss">
 .cart-detail__book__item {
