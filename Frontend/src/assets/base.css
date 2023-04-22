@@ -496,3 +496,11 @@ p.error {
   pointer-events: none;
   cursor: default;
 }
+
+.disabled {
+  color: rgba(145, 158, 171, 0.8) !important;
+  box-shadow: none !important;
+  background-color: rgba(145, 158, 171, 0.24) !important;
+  pointer-events: none;
+  cursor: default;
+}

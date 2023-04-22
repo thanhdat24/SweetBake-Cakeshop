@@ -39,8 +39,16 @@
             </div>
             <div class="cart-detail__user-info__detail__total">
               <button
+                v-if="disabled"
+                disabled
+                class="disabled btn btn--primary cursor-default"
+                @click="handleCreateOrder"
+              >
+                Complete Order
+              </button>
+              <button
+                v-else
                 class="btn btn--primary"
-                name="btn-order"
                 @click="handleCreateOrder"
               >
                 Complete Order
@@ -51,14 +59,18 @@
       </div>
     </div>
   </div>
+  <teleport to="body">
+    <model-order-success></model-order-success>
+  </teleport>
 </template>
 <script>
 import { computed, ref } from "vue";
 import { useStore } from "vuex";
 import CheckoutItem from "../components/CheckoutItem.vue";
 import { formatPriceInVND } from "../utils/formatNumber";
+import ModelOrderSuccess from "../components/ModelOrderSuccess.vue";
 export default {
-  components: { CheckoutItem },
+  components: { CheckoutItem, ModelOrderSuccess },
   setup() {
     const store = useStore();
     store.dispatch("carts/getCart");
@@ -68,9 +80,8 @@ export default {
     const cart = computed(() => store.state.carts.checkout.cart);
     const total = computed(() => store.state.carts.checkout.total);
     const subtotal = computed(() => store.state.carts.checkout.subtotal);
-    const handleAddress = (value) => {
-      console.log(value);
-    };
+    const disabled = computed(() => cart.value.length === 0);
+    const open = ref(false);
     const handleCreateOrder = () => {
       let data = {
         address: {
@@ -97,6 +108,8 @@ export default {
       userLogin,
       handleCreateOrder,
       address,
+      open,
+      disabled,
     };
   },
 };

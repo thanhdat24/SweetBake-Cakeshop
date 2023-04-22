@@ -3,9 +3,13 @@
     <div class="container">
       <h3 class="title mt-5 text-center">Giỏ hàng</h3>
       <div class="products-cart">
-        <div>
+        <div class="w-full">
           <div class="products-cart__book">
-            <table class="table">
+            <div class="text-3xl text-gray-500 font-medium mb-10">
+              <span class="font-bold text-black">Cart</span> ({{ cart.length }}
+              item)
+            </div>
+            <table class="table" v-if="cart.length > 0">
               <thead>
                 <tr>
                   <th class="flex justify-center">Product</th>
@@ -23,6 +27,21 @@
                 />
               </tbody>
             </table>
+            <div class="text-center mt-10" v-else>
+              <div>
+                <img
+                  class="h-96"
+                  src="../assets/orders/empty_cart.svg"
+                  alt=""
+                />
+                <p class="text-3xl font-bold mt-8">Cart is empty</p>
+                <p
+                  class="leading-5 text-gray-400 font-medium text-2xl mt-9 mb-24"
+                >
+                  Look like you have no items in your shopping cart.
+                </p>
+              </div>
+            </div>
           </div>
           <div class="products-cart__book__update">
             <router-link to="/" class="products-cart__book__update__back"
@@ -67,16 +86,20 @@
               </n-button>
             </n-input-group>
           </div>
-          <button class="checkout disabled cursor-default" v-if="disabled">
-            <router-link to="/checkout" class="btn btn--primary btn-checkout"
-              >Check out
-            </router-link>
-          </button>
-          <button class="checkout" v-else>
-            <router-link to="/checkout" class="btn btn--primary btn-checkout"
-              >Check out
-            </router-link>
-          </button>
+          <router-link
+            to="/checkout"
+            class="btn btn--primary disabled cursor-default text-center flex justify-center mb-5"
+            v-if="disabled"
+          >
+            Check out
+          </router-link>
+          <router-link
+            to="/checkout"
+            class="btn btn--primary text-center flex justify-center mb-5"
+            v-else
+          >
+            Check out
+          </router-link>
         </div>
       </div>
     </div>

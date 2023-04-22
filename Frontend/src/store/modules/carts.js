@@ -50,6 +50,15 @@ const mutations = {
     state.checkout.cart = updateCart;
     localStorage.setItem("checkout", JSON.stringify(state.checkout));
   },
+  setResetCartMutation(state) {
+    state.checkout = {
+      activeStep: 0,
+      cart: [],
+      subtotal: 0,
+      total: 0,
+    };
+    localStorage.setItem("checkout", JSON.stringify(state.checkout));
+  },
 };
 
 const actions = {
@@ -89,6 +98,9 @@ const actions = {
 
   async deleteCart({ commit }, payload) {
     commit("setDeleteCartMutation", payload);
+  },
+  resetCart({ commit }) {
+    commit("setResetCartMutation");
   },
 };
 
