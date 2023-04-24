@@ -64,7 +64,7 @@ export default {
     };
     const handleOrderMe = () => {
       store.dispatch("carts/resetCart");
-      router.push("/orders");
+      router.push("/profile");
     };
     console.log("createOrderSuccess", createOrderSuccess.value);
     return { createOrderSuccess, handleBack, handleOrderMe };

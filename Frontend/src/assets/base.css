@@ -107,7 +107,7 @@ body {
   font-family: "Nunito", sans-serif;
   color: #333333;
   font-weight: 700;
-  font-size: 4rem;
+  font-size: 4rem !important;
   margin: 50px 0 60px 0;
   position: relative;
   -webkit-touch-callout: none; /* iOS Safari */
@@ -122,8 +122,8 @@ body {
   content: "";
   height: 2px;
   position: absolute;
-  left: 36.49%;
-  right: 35.41%;
+  left: 23.49%;
+  right: 22.41%;
   top: 115%;
   bottom: 0%;
   /* Content 2 */
