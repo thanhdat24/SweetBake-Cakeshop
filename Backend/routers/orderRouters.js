@@ -7,6 +7,8 @@ router.post("/", authController.protect, orderController.createOrder);
 
 router.route("/").get(orderController.getAllOrder);
 
-// router.route("/:id").get(orderController.getDetailOrder);
+router.get("/getMeOrder", authController.protect, orderController.getMeOrder);
+
+router.route("/:id").get(orderController.getDetailOrder);
 
 module.exports = router;

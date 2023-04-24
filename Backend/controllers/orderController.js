@@ -10,19 +10,43 @@ const moment = require("moment");
 
 exports.getAllOrder = factory.getAll(Order, { path: "orderDetail" });
 exports.getMeOrder = catchAsync(async (req, res, next) => {
-  let query = Order.find(req.query).populate("orderDetail");
-  const doc = await query;
-  let filterDoc = doc.filter((item) => item.idUser.id === req.user.id);
+  const orders = await Order.find({ userId: req.user.id })
+    .sort({ createdAt: -1 })
+    .populate("orderDetail");
 
-  filterDoc.sort((a, b) => b.createdAt - a.createdAt);
+  // filterDoc.sort((a, b) => b.createdAt - a.createdAt);
+  // thêm vào trường cakeImage trong model cakeImage
+  for (let order of orders) {
+    for (let cake of order.orderDetail) {
+      const image = await CakeImages.findOne({ cakeId: cake.cakeId.id });
+      if (image) {
+        cake.cakeImage = image.url;
+      }
+    }
+  }
 
   res.status(200).json({
     status: "success",
-    length: filterDoc.length,
-    data: filterDoc,
+    length: orders.length,
+    data: orders,
   });
 });
-exports.getDetailOrder = factory.getOne(Order, { path: "orderDetail" });
+
+exports.getDetailOrder = catchAsync(async (req, res, next) => {
+  const orders = await Order.findById(req.params.id).populate("orderDetail");
+  for (let cake of orders.orderDetail) {
+    const image = await CakeImages.findOne({ cakeId: cake.cakeId.id });
+    if (image) {
+      cake.cakeImage = image.url;
+    }
+  }
+
+  res.status(200).json({
+    status: "success",
+    length: orders.length,
+    data: orders,
+  });
+});
 
 const filterObj = (obj, ...allowedField) => {
   const newObj = {};
@@ -48,7 +72,6 @@ exports.createOrder = catchAsync(async (req, res, next) => {
     const order = await Order.create(objOrder);
     req.order = order;
 
-    console.log("req.order", req.order);
     let arrayItems = [];
 
     let totalQuality = 0;
