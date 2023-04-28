@@ -1,7 +1,6 @@
 <template lang="">
   <div class="main-content-checkout">
     <div class="container">
-      <h3 class="title mt-5 text-center">Thanh toán</h3>
       <div class="cart-detail">
         <ul class="cart-detail__book">
           <CheckoutItem

@@ -2,8 +2,14 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
+import Profile from "../views/Profile.vue";
 import CakeDetail from "../views/CakeDetail.vue";
+import Dashboard from "../views/Dashboard/Dashboard.vue";
+import Cakes from "../views/Dashboard/Cakes/CakeList.vue";
+import CreateCategory from "../views/Dashboard/Categories/Create.vue";
+import Categories from "../views/Dashboard/Categories/CategoryList.vue";
 import CategoryDetail from "../views/CakeCategoryDetail.vue";
+import OrderDetail from "../views/OrderDetail.vue";
 import Cart from "../views/Cart.vue";
 import Checkout from "../views/Checkout.vue";
 
@@ -28,6 +34,16 @@ const router = createRouter({
       component: Register,
     },
     {
+      path: "/profile",
+      name: "profile",
+      component: Profile,
+    },
+    {
+      path: "/order-detail/:orderId",
+      name: "order-detail",
+      component: OrderDetail,
+    },
+    {
       path: "/category/:categoryName",
       name: "category-detail",
       component: CategoryDetail,
@@ -48,6 +64,28 @@ const router = createRouter({
       component: CakeDetail,
     },
 
+    {
+      path: "/admin",
+      name: "admin",
+      component: Dashboard,
+      children: [
+        {
+          name: "cakes",
+          path: "/admin/cakes",
+          component: Cakes,
+        },
+        {
+          name: "categories",
+          path: "/admin/categories",
+          component: Categories,
+        },
+        {
+          name: "newCategory",
+          path: "/admin/categories/new",
+          component: CreateCategory,
+        },
+      ],
+    },
     // {
     //   path: "/about",
     //   name: "about",

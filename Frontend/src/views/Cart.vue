@@ -1,7 +1,6 @@
 <template lang="">
   <div class="main-content-products">
     <div class="container">
-      <h3 class="title mt-5 text-center">Giỏ hàng</h3>
       <div class="products-cart">
         <div class="w-full">
           <div class="products-cart__book">

@@ -3,7 +3,7 @@
     <div class="main-header pt-3">
       <div class="px-32 py-1 header">
         <router-link to="/" class="header__logo">
-          <img src="../assets/logo.png" alt="logo" />
+          <img src="../assets/book.png" alt="logo" />
         </router-link>
         <form class="header__search" action="?page=search" method="post">
           <input type="text" name="key" placeholder="Tìm kiếm bánh..." /><input
@@ -71,7 +71,9 @@ export default {
     const router = useRouter();
     const store = useStore();
     store.dispatch("carts/getCart");
+    store.dispatch("auths/loadUser");
     const userLogin = computed(() => store.state.auths.userLogin);
+    console.log("userLogin", userLogin);
     const cart = computed(() => store.state.carts.checkout.cart);
     const options = [
       {

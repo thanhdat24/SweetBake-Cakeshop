@@ -1,8 +1,9 @@
-import { getCategory } from "../../api/categoriesApi";
-
+import { getCategory, postCategory } from "../../api/categoriesApi";
+import router from "../../router";
 const state = () => {
   return {
     categoryList: [],
+    createCategorySuccess: null,
   };
 };
 
@@ -10,12 +11,32 @@ const mutations = {
   setCategoryListMutation(state, payload) {
     state.categoryList = payload;
   },
+  setPostCategoryMutation(state, response) {
+    console.log("response", response);
+    if (response.status === 201) {
+      state.createCategorySuccess = response.data.data;
+      router.push("/admin/categories");
+    }
+  },
+  setResetCategoryMutation(state) {
+    state.createCategorySuccess = null;
+  },
 };
 
 const actions = {
-  async getCategoryListAction(context) {
+  async getCategoryListAction({ commit }) {
     const response = await getCategory();
-    context.commit("setCategoryListMutation", response.data.data);
+    commit("setCategoryListMutation", response.data.data);
+  },
+
+  async postCategoryAction({ commit }, data) {
+    console.log("data", data);
+    const response = await postCategory(data);
+    console.log("response", response);
+    commit("setPostCategoryMutation", response);
+  },
+  resetCategory({ commit }) {
+    commit("setResetCategoryMutation");
   },
 };
 

@@ -1,15 +1,13 @@
 <template lang="">
-    <div class="container-fluid banner">
-    <img src="../assets/banner.png" alt="Banner" />
+  <div class="container-fluid banner">
+    <img src="../assets/banner.jpg" alt="Banner" />
   </div>
 </template>
 <script>
-export default {
-    
-}
+export default {};
 </script>
 <style lang="css">
-    .banner {
+.banner {
   margin-top: 40px;
 }
 .banner img {
