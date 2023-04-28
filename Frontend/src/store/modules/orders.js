@@ -16,10 +16,9 @@ const state = () => {
 };
 
 const mutations = {
-  setCreateOrderMutation(state, result) {
-    if (result.status === 201) {
-      state.createOrderSuccess = result.data.data;
-      console.log("result", result.data.data);
+  setCreateOrderMutation(state, response) {
+    if (response.status === 201) {
+      state.createOrderSuccess = response.data.data;
       localStorage.removeItem("checkout");
     }
   },
@@ -39,8 +38,8 @@ const mutations = {
 const actions = {
   async createOrderAction({ commit }, { data }) {
     console.log("data", data);
-    const result = await createOrder(data);
-    commit("setCreateOrderMutation", result);
+    const response = await createOrder(data);
+    commit("setCreateOrderMutation", response);
   },
 
   async getOrderListAction(context) {

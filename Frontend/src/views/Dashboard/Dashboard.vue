@@ -49,6 +49,46 @@
 
               Cakes
             </router-link>
+            <router-link
+              to="/admin/users"
+              class="inline-flex relative items-center py-[10px] px-[10px] w-full text-2xl font-medium rounded-md border-gray-200 hover:bg-gray-200 hover:text-gray-800 transition duration-400 ease-in-out"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="mr-8 w-[24px] h-[24px] fill-current"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                viewBox="0 0 24 24"
+              >
+                <g fill="none">
+                  <path
+                    d="M14.75 15c.966 0 1.75.784 1.75 1.75l-.001.962c.117 2.19-1.511 3.297-4.432 3.297c-2.91 0-4.567-1.09-4.567-3.259v-1c0-.966.784-1.75 1.75-1.75h5.5zm-11-5h4.376a4.007 4.007 0 0 0 1.067 3.85l.162.151L9.25 14a2.75 2.75 0 0 0-2.649 2.008l-.034.001C3.657 16.009 2 14.919 2 12.75v-1c0-.966.784-1.75 1.75-1.75zm16.5 0c.966 0 1.75.784 1.75 1.75l-.001.962c.117 2.19-1.511 3.297-4.432 3.297l-.169-.002a2.756 2.756 0 0 0-2.451-2L14.75 14l-.105.001a3.99 3.99 0 0 0 1.229-4L20.25 10zM12 8a3 3 0 1 1 0 6a3 3 0 0 1 0-6zM6.5 3a3 3 0 1 1 0 6a3 3 0 0 1 0-6zm11 0a3 3 0 1 1 0 6a3 3 0 0 1 0-6z"
+                    fill="currentColor"
+                  ></path>
+                </g>
+              </svg>
+
+              Users
+            </router-link>
+            <router-link
+              to="/admin/orders"
+              class="inline-flex relative items-center py-[10px] px-[10px] w-full text-2xl font-medium rounded-md border-gray-200 hover:bg-gray-200 hover:text-gray-800 transition duration-400 ease-in-out"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="mr-8 w-[24px] h-[24px] fill-current"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                viewBox="0 0 24 24"
+              >
+                <g fill="none">
+                  <path
+                    d="M13.409 2.513a3.75 3.75 0 0 0-2.818 0l-2.19.888l9.592 3.73l3.374-1.303a1.747 1.747 0 0 0-.46-.275l-7.498-3.04zM22 7.191l-9.25 3.574v10.923c.224-.045.444-.112.659-.199l7.498-3.04A1.75 1.75 0 0 0 22 16.827V7.192zM11.25 21.688V10.765L2 7.191v9.637a1.75 1.75 0 0 0 1.093 1.621l7.498 3.04c.215.087.435.153.659.2zM2.633 5.828L12 9.447l3.917-1.514l-9.543-3.71l-3.281 1.33c-.17.069-.324.162-.46.275z"
+                    fill="currentColor"
+                  ></path>
+                </g>
+              </svg>
+
+              Orders
+            </router-link>
           </div>
         </div>
       </div>
