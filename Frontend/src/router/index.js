@@ -7,7 +7,10 @@ import CakeDetail from "../views/CakeDetail.vue";
 import Dashboard from "../views/Dashboard/Dashboard.vue";
 import Cakes from "../views/Dashboard/Cakes/CakeList.vue";
 import CreateCategory from "../views/Dashboard/Categories/Create.vue";
+import EditCategory from "../views/Dashboard/Categories/Edit.vue";
 import Categories from "../views/Dashboard/Categories/CategoryList.vue";
+import Users from "../views/Dashboard/Users/UserList.vue";
+import Orders from "../views/Dashboard/Orders/OrderList.vue";
 import CategoryDetail from "../views/CakeCategoryDetail.vue";
 import OrderDetail from "../views/OrderDetail.vue";
 import Cart from "../views/Cart.vue";
@@ -80,9 +83,24 @@ const router = createRouter({
           component: Categories,
         },
         {
+          name: "users",
+          path: "/admin/users",
+          component: Users,
+        },
+        {
+          name: "orders",
+          path: "/admin/orders",
+          component: Orders,
+        },
+        {
           name: "newCategory",
           path: "/admin/categories/new",
           component: CreateCategory,
+        },
+        {
+          name: "editCategory",
+          path: "/admin/categories/:categoryId/edit",
+          component: EditCategory,
         },
       ],
     },

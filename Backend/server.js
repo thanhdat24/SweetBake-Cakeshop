@@ -15,7 +15,7 @@ const DB = process.env.DATABASE.replace(
   process.env.DATABASE_PASSWORD
 );
 
-mongoose.set("bufferCommands", false);
+// mongoose.set("bufferCommands", false);
 
 mongoose
   .connect(DB, {
@@ -26,8 +26,21 @@ mongoose
     console.log("DB connection successful!");
   });
 
+// async function connect() {
+//   try {
+//     await mongoose.connect(DB, {
+//       useNewUrlParser: true,
+//       useUnifiedTopology: true,
+//       bufferCommands: false, // set to false by default
+//     });
+//     console.log("Connected to MongoDB");
+//   } catch (err) {
+//     console.error(err);
+//   }
+// }
 
-  
+// connect(); // call the connect function
+
 // lắng nghe event kết nối
 const port = process.env.PORT || 8080;
 const server = app.listen(port, () => {

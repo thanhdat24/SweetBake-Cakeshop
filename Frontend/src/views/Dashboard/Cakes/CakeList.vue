@@ -61,7 +61,7 @@ const createColumns = () => {
         return h("img", {
           src: row.cakeImages[0].url,
           style: {
-            width: "99px",
+            width: "95px",
           },
         });
       },

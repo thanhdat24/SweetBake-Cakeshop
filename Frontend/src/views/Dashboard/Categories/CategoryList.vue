@@ -18,7 +18,11 @@
     </div>
     <div class="paper">
       <n-space vertical :size="12">
-        <n-data-table :columns="columns" :data="data" />
+        <n-data-table
+          :columns="columns"
+          :data="data"
+          :pagination="pagination"
+        />
       </n-space>
     </div>
   </div>
@@ -29,27 +33,43 @@ import { h, defineComponent, computed } from "vue";
 import { NIcon, NButton, useMessage } from "naive-ui";
 import { useStore } from "vuex";
 import { TrashOutline, BuildOutline } from "@vicons/ionicons5";
+import { useRouter } from "vue-router";
 export default defineComponent({
   setup() {
     const message = useMessage();
+    const router = useRouter();
     const store = useStore();
     const createCategorySuccess = computed(
       () => store.state.categories.createCategorySuccess
     );
+    const editCategory = computed(() => store.state.categories.editCategory);
     if (createCategorySuccess.value !== null) {
       message.success("Create category successfully");
+    }
+    if (editCategory.value !== null) {
+      message.success("Edit category successfully");
     }
     store.dispatch("categories/getCategoryListAction");
     store.dispatch("categories/resetCategory");
     const categoryList = computed(() => store.state.categories.categoryList);
-    const deleteCategory = (row) => {
-      console.log("row", row);
+    const deleteCategorySuccess = computed(
+      () => store.state.categories.deleteCategorySuccess
+    );
+    console.log("deleteCategorySuccess", deleteCategorySuccess);
+    // if (deleteCategorySuccess.value !== null) {
+    //   store.dispatch("categories/getCategoryListAction");
+    //   store.dispatch("categories/resetCategory");
+    //   message.success("Delete category successfully");
+    // }
+    const actionDelete = (row) => {
+      store.dispatch("categories/deleteCategoryAction", row.id);
     };
-    const editCategory = (row) => {
-      console.log("row", row);
+    const actionEdit = (row) => {
+      router.push("/admin/categories/" + row.id + "/edit");
     };
     return {
       createCategorySuccess,
+      deleteCategorySuccess,
       categoryList,
       columns: [
         { title: "Id", key: "id" },
@@ -79,7 +99,7 @@ export default defineComponent({
                     NButton,
                     {
                       size: "small",
-                      onClick: () => deleteCategory(row),
+                      onClick: () => actionDelete(row),
                       type: "error",
                       dashed: true,
                     },
@@ -95,7 +115,7 @@ export default defineComponent({
                     NButton,
                     {
                       size: "small",
-                      onClick: () => editCategory(row),
+                      onClick: () => actionEdit(row),
                       type: "info",
                       dashed: true,
                     },
@@ -113,6 +133,9 @@ export default defineComponent({
           },
         },
       ],
+      pagination: {
+        pageSize: 9,
+      },
       data: categoryList,
     };
   },
@@ -131,5 +154,6 @@ export default defineComponent({
     rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;
   border-radius: 16px;
   z-index: 0;
+  padding-bottom: 15px;
 }
 </style>
