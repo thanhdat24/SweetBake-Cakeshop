@@ -30,7 +30,7 @@ const orderModelSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      default: "Đang xử lý",
+      default: "In Progress",
     },
     paymentMethod: {
       type: String,
