@@ -1,6 +1,6 @@
 <template lang="">
   <div class="container-fluid banner">
-    <img src="../assets/banner.jpg" alt="Banner" />
+    <img src="../assets/banner.png" alt="Banner" />
   </div>
 </template>
 <script>

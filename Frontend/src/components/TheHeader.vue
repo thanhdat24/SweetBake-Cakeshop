@@ -3,7 +3,7 @@
     <div class="main-header pt-3">
       <div class="px-32 py-1 header">
         <router-link to="/" class="header__logo">
-          <img src="../assets/book.png" alt="logo" />
+          <img src="../assets/logo.png" alt="logo" />
         </router-link>
         <form class="header__search" action="?page=search" method="post">
           <input type="text" name="key" placeholder="Tìm kiếm bánh..." /><input
@@ -73,7 +73,6 @@ export default {
     store.dispatch("carts/getCart");
     store.dispatch("auths/loadUser");
     const userLogin = computed(() => store.state.auths.userLogin);
-    console.log("userLogin", userLogin);
     const cart = computed(() => store.state.carts.checkout.cart);
     const options = [
       {
@@ -220,26 +219,6 @@ export default {
           opacity: 0.9;
           .header__user__logout {
             display: block;
-          }
-        }
-        .header__login-button {
-          display: flex;
-          align-items: center;
-          button {
-            font-size: 14px;
-            padding: 5px 20px;
-            margin-right: 10px;
-          }
-        }
-        .header__user__logout {
-          padding: 10px 0;
-
-          transform: translateX(-16%);
-          width: 100px;
-          display: none;
-          a:hover {
-            color: #4b4b4b;
-            opacity: 0.8;
           }
         }
       }

@@ -3,6 +3,7 @@ import {
   getDetailOrder,
   getMeOrder,
   getOrder,
+  updateOrder,
 } from "../../api/orderApi";
 
 const state = () => {
@@ -12,6 +13,7 @@ const state = () => {
     orderUser: {},
     orderDetail: {},
     isLoading: false,
+    updateOrderSuccess: null,
   };
 };
 
@@ -32,6 +34,11 @@ const mutations = {
   setDetailOrderMutation(state, payload) {
     state.orderDetail = payload;
     state.isLoading = true;
+  },
+  setUpdateOrderMutation(state, payload) {
+    if (payload.status === 200) {
+      state.updateOrderSuccess = payload.data.data;
+    }
   },
 };
 
@@ -56,6 +63,11 @@ const actions = {
     const response = await getDetailOrder(payload);
     commit("setDetailOrderMutation", response.data.data);
     console.log("response", response.data.data);
+  },
+
+  async updateOrderAction({ commit }, { orderId, status }) {
+    const response = await updateOrder(orderId, { status: status });
+    commit("setUpdateOrderMutation", response);
   },
 };
 

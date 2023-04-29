@@ -23,3 +23,7 @@ export const getMeOrder = () => {
 export const getDetailOrder = (id) => {
   return axios.get(`api/v1/orders/${id}`);
 };
+
+export const updateOrder = (id, data) => {
+  return axios.patch(`api/v1/orders/${id}`, data);
+};

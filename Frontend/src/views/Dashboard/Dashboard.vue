@@ -4,7 +4,7 @@
     <div class="w-[300px] h-full bg-gray-200 text-white" v-show="showSide">
       <div class="h-[50px] bg-gray-900 flex justify-start items-center">
         <div class="px-[20px]">
-          <h3 class="font-bold text-xl">Admin Dashboard</h3>
+          <h3 class="font-bold !text-4xl">Admin Dashboard</h3>
         </div>
       </div>
       <div class="h-[calc(100vh-50px)] bg-gray-800 py-[20px]">
@@ -118,20 +118,24 @@
           </div>
           <!-- User login -->
           <div class="w-[200px]">
-            <div
-              class="flex items-center justify-start space-x-4"
-              @click="toggleDrop"
+            <n-dropdown
+              :options="options"
+              v-if="userLogin"
+              size="huge"
+              @select="handleSelect"
             >
-              <img
-                class="w-10 h-10 rounded-full border-2 border-gray-50"
-                src="https://th.bing.com/th/id/OIP.G5--BKa_cqF_G9CAZAoI5wHaHa?pid=ImgDet&rs=1"
-                alt=""
-              />
-              <div class="font-semibold">
-                <div>Madona ,Dev OP</div>
-                <div class="text-xs text-gray-500">Admin</div>
+              <div class="relative">
+                <div class="user-username flex items-center">
+                  <span class="mr-4">{{ userLogin.displayName }}</span>
+                  <div class="user-avatar relative">
+                    <img
+                      :src="userLogin.photoURL"
+                      :alt="userLogin.displayName"
+                    />
+                  </div>
+                </div>
               </div>
-            </div>
+            </n-dropdown>
             <!-- Drop down -->
             <div
               v-show="showDropDown"
@@ -191,9 +195,53 @@
   </div>
 </template>
 <script>
+import { h, computed } from "vue";
+import { NIcon } from "naive-ui";
+import {
+  PersonCircleOutline as UserIcon,
+  LogOutOutline as LogoutIcon,
+} from "@vicons/ionicons5";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
+const renderIcon = (icon) => {
+  return () => {
+    return h(NIcon, null, {
+      default: () => h(icon),
+    });
+  };
+};
 export default {
   data() {
+    const store = useStore();
+    const router = useRouter();
+    store.dispatch("auths/loadUser");
+    const userLogin = computed(() => store.state.auths.userLogin);
+    const handleLogout = () => {
+      store.dispatch("auths/logoutUser");
+      router.push("/login");
+    };
+    const handleSelect = (key) => {
+      if (key === "logout") {
+        handleLogout();
+      }
+    };
+    const options = [
+      {
+        label: "Profile",
+        key: "profile",
+        icon: renderIcon(UserIcon),
+      },
+      {
+        label: "Logout",
+        key: "logout",
+        icon: renderIcon(LogoutIcon),
+      },
+    ];
     return {
+      options,
+      handleSelect,
+      handleLogout,
+      userLogin,
       showDropDown: false,
       showSide: true,
     };
@@ -211,4 +259,35 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss">
+.user-username {
+  cursor: pointer;
+
+  color: #ec455a;
+  font-size: 18px;
+  font-weight: bold;
+  font-family: "Nunito", sans-serif;
+  &:hover {
+    opacity: 0.8;
+  }
+}
+.user-avatar {
+  cursor: pointer;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0);
+  box-shadow: 0 0 0 2px #ec455a;
+  img {
+    object-fit: cover;
+    border-radius: 50%;
+    width: 100%;
+  }
+  &:hover {
+    opacity: 0.9;
+    .header__user__logout {
+      display: block;
+    }
+  }
+}
+</style>
