@@ -54,9 +54,9 @@ const actions = {
     context.commit("setOrderListMutation", response.data.data);
   },
 
-  async getMeOrderAction(context) {
-    const response = await getMeOrder();
-    context.commit("setMeOrderListMutation", response.data.data);
+  async getMeOrderAction({ commit }, payload) {
+    const response = await getMeOrder(payload);
+    commit("setMeOrderListMutation", response.data);
   },
 
   async getDetailOrderAction({ commit }, payload) {

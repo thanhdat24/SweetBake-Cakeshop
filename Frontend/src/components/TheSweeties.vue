@@ -5,13 +5,17 @@
 
       <div class="sweeties__items">
         <SweetiesItem
-          v-for="(cake, index) in cakeList"
+          v-for="(cake, index) in cakeList.data"
           :key="index"
           :cake="cake"
         />
       </div>
 
-      <n-pagination class="mt-10" v-model:page="page" :page-count="8" />
+      <n-pagination
+        class="mt-10"
+        v-model:page="page"
+        :page-count="cakeList.totalPages"
+      />
 
       <!-- Page number -->
     </section>

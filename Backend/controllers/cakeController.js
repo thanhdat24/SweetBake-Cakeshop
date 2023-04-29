@@ -86,6 +86,9 @@ exports.getAllCake = catchAsync(async (req, res, next) => {
   const limit = 8;
   const skip = (page - 1) * limit;
 
+  const count = await Cake.countDocuments();
+  const totalPages = Math.ceil(count / limit);
+
   let query = Cake.find()
     .sort({ "categoryId.name": 1 })
     .populate("cakeImages")
@@ -110,6 +113,7 @@ exports.getAllCake = catchAsync(async (req, res, next) => {
     status: "success",
     result: filteredCakes.length,
     page,
+    totalPages,
     data: filteredCakes,
   });
 });

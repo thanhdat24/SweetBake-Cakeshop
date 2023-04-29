@@ -12,8 +12,8 @@ export const getOrder = () => {
   return axios.get("api/v1/orders");
 };
 
-export const getMeOrder = () => {
-  return axios.get("api/v1/orders/getMeOrder", {
+export const getMeOrder = (page) => {
+  return axios.get(`api/v1/orders/getMeOrder/?page=${page}`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },

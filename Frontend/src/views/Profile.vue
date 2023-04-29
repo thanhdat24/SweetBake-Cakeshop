@@ -61,27 +61,39 @@
     <div class="profile__order">
       <h3>Order history</h3>
       <order-item
-        v-for="(order, index) in orderUser"
+        v-for="(order, index) in orderUser.data"
         :key="index"
         :order="order"
       />
     </div>
+    <n-pagination
+      class="mt-10 flex justify-center"
+      v-model:page="page"
+      :page-count="orderUser.totalPages"
+    />
   </div>
 </template>
 <script>
-import { computed } from "vue";
+import { computed, ref, watch } from "vue";
 import { useStore } from "vuex";
 import OrderItem from "../components/OrderItem.vue";
 export default {
   components: { OrderItem },
   setup() {
     const store = useStore();
+    const page = ref(1);
     store.dispatch("auths/loadUser");
     store.dispatch("orders/getMeOrderAction");
     const userLogin = computed(() => store.state.auths.userLogin);
     const orderUser = computed(() => store.state.orders.orderUser);
     console.log("orderUser", orderUser);
-    return { userLogin, orderUser };
+    watch(
+      () => page.value,
+      (newVal, oldVal) => {
+        store.dispatch("orders/getMeOrderAction", newVal);
+      }
+    );
+    return { page, userLogin, orderUser };
   },
 };
 </script>

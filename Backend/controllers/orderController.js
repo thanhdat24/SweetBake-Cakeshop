@@ -10,10 +10,18 @@ const moment = require("moment");
 
 exports.getAllOrder = factory.getAll(Order, { path: "orderDetail" });
 exports.getMeOrder = catchAsync(async (req, res, next) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = 4;
+  const skip = (page - 1) * limit;
+
   const orders = await Order.find({ userId: req.user.id })
     .sort({ createdAt: -1 })
-    .populate("orderDetail");
+    .populate("orderDetail")
+    .skip(skip)
+    .limit(limit);
 
+const totalOrders = await Order.countDocuments({ userId: req.user.id });
+const totalPages = Math.ceil(totalOrders / limit);
   // filterDoc.sort((a, b) => b.createdAt - a.createdAt);
   // thêm vào trường cakeImage trong model cakeImage
   for (let order of orders) {
@@ -28,6 +36,8 @@ exports.getMeOrder = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: "success",
     length: orders.length,
+    page,
+    totalPages,
     data: orders,
   });
 });
