@@ -3,10 +3,57 @@ const Cake = require("../models/cakeModel");
 const cakeImages = require("../models/cakeImagesModel");
 const catchAsync = require("../utils/catchAsync");
 const { paramCase, capitalCase } = require("change-case");
+const CakeImages = require("../models/cakeImagesModel");
 
-exports.updateCake = factory.updateOne(Cake);
-exports.deleteCake = factory.deleteOne(Cake);
-exports.createCake = factory.createOne(Cake);
+exports.updateCake = catchAsync(async (req, res, next) => {
+  const _id = req.params.id;
+  req.body.slug = paramCase(req.body.name);
+  const doc = await Cake.findByIdAndUpdate(_id, req.body, {
+    new: true,
+    runValidators: true,
+  });
+
+  if (!doc) {
+    return next(new AppError("No document found with that ID", 404));
+  }
+  res.status(200).json({
+    status: "success",
+    result: doc.length,
+    data: doc,
+  });
+});
+exports.deleteCake = catchAsync(async (req, res, next) => {
+  const doc = await Cake.findByIdAndDelete(req.params.id);
+  await CakeImages.findOneAndDelete({
+    cakeId: req.params.id,
+  });
+
+  if (!doc) {
+    return next(new AppError("No document found with that ID", 404));
+  }
+
+  res.status(201).json({
+    status: "success",
+    data: "Xóa thành công!",
+  });
+});
+exports.createCake = catchAsync(async (req, res, next) => {
+  const fileData = req.file;
+  req.body.slug = paramCase(req.body.name);
+  const doc = await Cake.create(req.body);
+  if (doc) {
+    let newImages = {
+      url: fileData?.path,
+      cakeId: doc.id,
+    };
+    await cakeImages.create(newImages);
+    res.status(201).json({
+      status: "success",
+      result: doc.length,
+      data: doc,
+    });
+  }
+});
 // exports.getAllCake = factory.getAll(Cake, {
 //   path: "cakeImages",
 // });
@@ -35,7 +82,7 @@ exports.getCakeDetail = catchAsync(async (req, res, next) => {
 
 exports.getAllCake = catchAsync(async (req, res, next) => {
   let query = Cake.find(req.query)
-    // .sort({ createdAt: -1 })
+    .sort({ "categoryId.name": 1 })
     .populate("cakeImages");
   const doc = await query;
 
@@ -48,6 +95,9 @@ exports.getAllCake = catchAsync(async (req, res, next) => {
     })),
   }));
 
+  filteredCakes.sort((a, b) =>
+    a.categoryId.name.localeCompare(b.categoryId.name)
+  );
   res.status(200).json({
     status: "success",
     result: filteredCakes.length,

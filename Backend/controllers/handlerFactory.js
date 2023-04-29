@@ -1,6 +1,5 @@
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
-const cloudinary = require("../utils/cloudinary");
 const { capitalCase } = require("change-case");
 
 exports.deleteOne = (Model) =>
@@ -19,15 +18,6 @@ exports.deleteOne = (Model) =>
 
 exports.updateOne = (Model) =>
   catchAsync(async (req, res, next) => {
-    if (req.body.photoURL) {
-      const uploadedResponse = await cloudinary.uploader.upload(
-        req.body.photoURL,
-        {
-          upload_preset: "avatar",
-        }
-      );
-      req.body.photoURL = uploadedResponse.secure_url;
-    }
     const _id = req.params.id;
     const doc = await Model.findByIdAndUpdate(_id, req.body, {
       new: true,
@@ -44,20 +34,8 @@ exports.updateOne = (Model) =>
     });
   });
 
-exports.createOne = (Model, uploadCloudName, imageModelName) =>
+exports.createOne = (Model) =>
   catchAsync(async (req, res, next) => {
-    if (imageModelName && imageModelName === "photo") {
-      if (req.body.photo) {
-        const uploadedResponse = await cloudinary.uploader.upload(
-          req.body.photo,
-          {
-            upload_preset: uploadCloudName,
-          }
-        );
-        req.body.photo = uploadedResponse.secure_url;
-      }
-    }
-
     const doc = await Model.create(req.body);
 
     res.status(201).json({

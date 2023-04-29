@@ -1,19 +1,19 @@
 const express = require("express");
 const cakeController = require("../controllers/cakeController");
-
+const uploadCloud = require("../middlewares/uploader");
 const router = express.Router();
 
 router
   .route("/")
-  .post(cakeController.createCake)
+  .post(uploadCloud.single("cakeImages"), cakeController.createCake)
   .get(cakeController.getAllCake);
 
 router.route("/getCakeDetail").get(cakeController.getCakeDetail);
-// router
-//   .route("/:cakeId")
-//   .delete(cakeController.deleteCake)
-//   .get(cakeController.getDetailCake)
-//   .put(cakeController.updateCake);
+
+router
+  .route("/:id")
+  .delete(cakeController.deleteCake)
+  .put(cakeController.updateCake);
 
 router.route("/getCakeByCate").get(cakeController.getCakeByCategory);
 

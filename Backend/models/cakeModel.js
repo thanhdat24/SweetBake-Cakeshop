@@ -31,7 +31,7 @@ const cakeSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      default: "mới",
+      default: "new",
     },
     categoryId: {
       type: mongoose.Schema.ObjectId,
