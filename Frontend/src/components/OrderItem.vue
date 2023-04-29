@@ -1,9 +1,13 @@
 <template lang="">
   <div class="profile__order__item">
-    <h6>
-      Order #<span style="color: blue; font-weight: 600">{{ order.id }}</span>
-    </h6>
-
+    <div class="flex items-center mb-4">
+      <h6>
+        Order #<span style="color: blue; font-weight: 600">{{ order.id }}</span>
+      </h6>
+      <n-tag class="ml-10 !rounded-lg font-semibold" :type="orderStatus">
+        {{ order.status }}
+      </n-tag>
+    </div>
     <order-detail-item
       v-for="(orderDetail, index) in order.orderDetail"
       :key="index"
@@ -28,6 +32,7 @@
 import OrderDetailItem from "./OrderDetailItem.vue";
 import { formatPriceInVND } from "../utils/formatNumber";
 import { useRouter } from "vue-router";
+import { computed } from "vue";
 export default {
   components: {
     OrderDetailItem,
@@ -43,7 +48,21 @@ export default {
     const handleOrderDetail = () => {
       router.push(`/order-detail/${props.order.id}`);
     };
-    return { OrderDetailItem, formatPriceInVND, handleOrderDetail };
+    const orderStatus = computed(() => {
+      if (props.order.status === "In Progress") {
+        return "warning";
+      } else if (props.order.status === "Delivered") {
+        return "success";
+      } else {
+        return "info";
+      }
+    });
+    return {
+      orderStatus,
+      OrderDetailItem,
+      formatPriceInVND,
+      handleOrderDetail,
+    };
   },
 };
 </script>
@@ -59,8 +78,6 @@ export default {
     margin-top: 10px;
     h6 {
       font-size: 2rem;
-      padding-bottom: 15px;
-      border-bottom: 1px solid rgba(194, 194, 194, 0.411);
     }
     &__price,
     &__detail {

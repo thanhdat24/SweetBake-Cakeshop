@@ -3,6 +3,11 @@
     <h3 class="mt-5">
       Order detail #<span class="text-blue-600">{{ orderDetail.id }}</span>
     </h3>
+    <n-steps :current="currentStatus" :status="processStatus">
+      <n-step title="In Progress" />
+      <n-step title="Shipping" />
+      <n-step title="Delivered" />
+    </n-steps>
     <p class="text-right">
       <b>Order date: {{ formatDate(orderDetail.createdAt) }}</b>
     </p>
@@ -108,12 +113,30 @@ export default {
     const route = useRoute();
     const store = useStore();
     const orderId = route.params.orderId;
-    console.log("orderId", orderId);
-    store.dispatch("auths/loadUser");
     store.dispatch("orders/getDetailOrderAction", orderId);
     const orderDetail = computed(() => store.state.orders.orderDetail);
     console.log("orderDetail", orderDetail);
+    const currentStatus = computed(() => {
+      if (orderDetail.value.status === "In Progress") {
+        return 1;
+      } else if (orderDetail.value.status === "Shipping") {
+        return 2;
+      } else {
+        return 3;
+      }
+    });
+    const processStatus = computed(() => {
+      if (orderDetail.value.status === "In Progress") {
+        return "process";
+      } else if (orderDetail.value.status === "Shipping") {
+        return "process";
+      } else {
+        return "finish";
+      }
+    });
     return {
+      processStatus,
+      currentStatus,
       orderDetail,
       formatPriceInVND,
       formatDate,
