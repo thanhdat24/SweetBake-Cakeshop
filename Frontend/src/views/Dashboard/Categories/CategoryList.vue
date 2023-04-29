@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { h, defineComponent, computed } from "vue";
+import { h, defineComponent, computed, watchEffect, watch } from "vue";
 import { NIcon, NButton, useMessage } from "naive-ui";
 import { useStore } from "vuex";
 import { TrashOutline, BuildOutline } from "@vicons/ionicons5";
@@ -56,14 +56,21 @@ export default defineComponent({
       () => store.state.categories.deleteCategorySuccess
     );
     console.log("deleteCategorySuccess", deleteCategorySuccess);
-    // if (deleteCategorySuccess.value !== null) {
-    //   store.dispatch("categories/getCategoryListAction");
-    //   store.dispatch("categories/resetCategory");
-    //   message.success("Delete category successfully");
-    // }
+
+    watch(
+      () => deleteCategorySuccess.value,
+      (newVal, oldVal) => {
+        if (newVal !== null) {
+          store.dispatch("categories/getCategoryListAction");
+          store.dispatch("categories/resetCategory");
+          message.success("Delete category successfully");
+        }
+      }
+    );
     const actionDelete = (row) => {
       store.dispatch("categories/deleteCategoryAction", row.id);
     };
+
     const actionEdit = (row) => {
       router.push("/admin/categories/" + row.id + "/edit");
     };

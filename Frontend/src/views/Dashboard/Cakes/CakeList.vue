@@ -9,7 +9,11 @@
           <n-breadcrumb-item> List</n-breadcrumb-item>
         </n-breadcrumb>
       </div>
-      <button class="mr-20 btn btn--primary text-2xl p-3">Add Cake</button>
+      <router-link
+        to="/admin/cakes/new"
+        class="mr-20 btn btn--primary text-2xl p-3"
+        >Add Cake</router-link
+      >
     </div>
     <div class="paper">
       <n-space vertical :size="12">
@@ -25,119 +29,150 @@
 </template>
 
 <script>
-import { h, computed } from "vue";
+import { h, computed, watch } from "vue";
 import { NIcon, NButton, useMessage } from "naive-ui";
 import { useStore } from "vuex";
 import { TrashOutline, BuildOutline } from "@vicons/ionicons5";
 import { formatPriceInVND } from "../../../utils/formatNumber";
+import { useRouter } from "vue-router";
 const createColumns = () => {
-  return [
-    {
-      title: "Name",
-      key: "name",
-    },
-    {
-      title: "Category",
-      key: "categoryId.name",
-    },
-    {
-      title: "Price",
-      key: "price",
-      render(row) {
-        return formatPriceInVND(row.price);
-      },
-    },
-    {
-      title: "Price Sale",
-      key: "priceSale",
-      render(row) {
-        return formatPriceInVND(row.priceSale);
-      },
-    },
-    {
-      title: "Image",
-      key: "cakeImages[0].url",
-      render(row) {
-        return h("img", {
-          src: row.cakeImages[0].url,
-          style: {
-            width: "95px",
-          },
-        });
-      },
-    },
-    {
-      title: "Action",
-      key: "actions",
-      render(row) {
-        return h("div", [
-          h(
-            "div",
-            {
-              style: {
-                display: "flex",
-                gap: "10px",
-              },
-            },
-            [
-              h(
-                NButton,
-                {
-                  size: "small",
-                  onClick: () => deleteCategory(row),
-                  type: "error",
-                  dashed: true,
-                },
-                {
-                  icon: () =>
-                    h(NIcon, null, {
-                      default: () => h(TrashOutline),
-                    }),
-                  default: () => "Delete",
-                }
-              ),
-              h(
-                NButton,
-                {
-                  size: "small",
-                  onClick: () => editCategory(row),
-                  type: "info",
-                  dashed: true,
-                },
-                {
-                  icon: () =>
-                    h(NIcon, null, {
-                      default: () => h(BuildOutline),
-                    }),
-                  default: () => "Edit",
-                }
-              ),
-            ]
-          ),
-        ]);
-      },
-    },
-  ];
+  return [];
 };
 
 export default {
   setup() {
     const message = useMessage();
     const store = useStore();
+    const router = useRouter();
     store.dispatch("cakes/getAllCakeListAction");
-
     const cakeList = computed(() => store.state.cakes.cakeList);
-    console.log("cakeList", cakeList);
+    const editCake = computed(() => store.state.cakes.editCake);
+    const deleteCakeSuccess = computed(
+      () => store.state.cakes.deleteCakeSuccess
+    );
+
+    const createCakeSuccess = computed(
+      () => store.state.cakes.createCakeSuccess
+    );
+    if (createCakeSuccess.value !== null) {
+      message.success("Create cake successfully");
+    }
+
+    if (editCake.value !== null) {
+      message.success("Edit cake successfully");
+    }
+    store.dispatch("cakes/resetCake");
+
+    watch(
+      () => deleteCakeSuccess.value,
+      (newVal, oldVal) => {
+        if (newVal !== null) {
+          store.dispatch("cakes/getAllCakeListAction");
+          store.dispatch("cakes/resetCake");
+          message.success("Delete cake successfully");
+        }
+      }
+    );
+    const actionDelete = (row) => {
+      store.dispatch("cakes/deleteCakeAction", row.id);
+    };
+
+    const actionEdit = (row) => {
+      router.push("/admin/cakes/" + row.slug + "/edit");
+    };
     return {
+      actionEdit,
       cakeList,
       data: cakeList,
-      columns: createColumns({
-        sendMail(rowData) {
-          message.info("send mail to " + rowData.name);
+      columns: [
+        {
+          title: "Name",
+          key: "name",
         },
-      }),
+        {
+          title: "Category",
+          key: "categoryId.name",
+        },
+        {
+          title: "Price",
+          key: "price",
+          render(row) {
+            return formatPriceInVND(row.price);
+          },
+        },
+        {
+          title: "Price Sale",
+          key: "priceSale",
+          render(row) {
+            return formatPriceInVND(row.priceSale);
+          },
+        },
+        {
+          title: "Image",
+          key: "cakeImages[0].url",
+          render(row) {
+            return h("img", {
+              src: row.cakeImages[0].url,
+              style: {
+                width: "95px",
+              },
+            });
+          },
+        },
+        {
+          title: "Action",
+          key: "actions",
+          render(row) {
+            return h("div", [
+              h(
+                "div",
+                {
+                  style: {
+                    display: "flex",
+                    gap: "10px",
+                  },
+                },
+                [
+                  h(
+                    NButton,
+                    {
+                      size: "small",
+                      onClick: () => actionDelete(row),
+                      type: "error",
+                      dashed: true,
+                    },
+                    {
+                      icon: () =>
+                        h(NIcon, null, {
+                          default: () => h(TrashOutline),
+                        }),
+                      default: () => "Delete",
+                    }
+                  ),
+                  h(
+                    NButton,
+                    {
+                      size: "small",
+                      onClick: () => actionEdit(row),
+                      type: "info",
+                      dashed: true,
+                    },
+                    {
+                      icon: () =>
+                        h(NIcon, null, {
+                          default: () => h(BuildOutline),
+                        }),
+                      default: () => "Edit",
+                    }
+                  ),
+                ]
+              ),
+            ]);
+          },
+        },
+      ],
       pagination: {
-        pageSize: 10,
+        pageSize: 4,
       },
     };
   },

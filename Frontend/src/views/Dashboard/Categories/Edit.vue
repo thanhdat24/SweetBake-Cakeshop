@@ -31,18 +31,19 @@
       />
     </div>
     <div class="flex justify-center mt-10">
-      <button
-        class="mr-20 btn btn--primary text-2xl p-3 w-96"
-        :class="{ disabled: isDisabled }"
+      <n-button
+        class="mr-20 custom-button !py-8 w-1/5 !text-3xl"
         @click="handleEdit(dataEdit)"
+        :loading="loading"
+        :disabled="isDisabled"
       >
         Save Changes
-      </button>
+      </n-button>
     </div>
   </div>
 </template>
 <script>
-import { reactive, computed, watch } from "vue";
+import { reactive, computed, watch, ref } from "vue";
 import { useRoute } from "vue-router";
 import { useStore } from "vuex";
 
@@ -50,6 +51,7 @@ export default {
   setup() {
     const route = useRoute();
     const store = useStore();
+    const loading = ref(false);
     const categoryId = route.params.categoryId;
     store.dispatch("categories/getDetailCategoryAction", categoryId);
     const detailCategory = computed(
@@ -57,6 +59,7 @@ export default {
     );
     console.log("detailCategory", detailCategory);
     const dataEdit = reactive({
+      id: "",
       name: "",
       description: "",
     });
@@ -64,20 +67,20 @@ export default {
       () => detailCategory.value,
       (newVal) => {
         if (newVal) {
+          dataEdit.id = newVal.id;
           dataEdit.name = newVal.name;
           dataEdit.description = newVal.description;
         }
       }
     );
     const handleEdit = (dataEdit) => {
-      console.log("dataEdit", dataEdit);
-      dataEdit = { ...dataEdit, categoryId: categoryId };
+      loading.value = true;
       store.dispatch("categories/editCategoryAction", dataEdit);
     };
     const isDisabled = computed(() => {
       return !dataEdit.name || !dataEdit.description;
     });
-    return { detailCategory, dataEdit, handleEdit, isDisabled };
+    return { loading, detailCategory, dataEdit, handleEdit, isDisabled };
   },
 };
 </script>

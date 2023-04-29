@@ -8,7 +8,7 @@ import {
 const state = () => {
   return {
     createOrderSuccess: {},
-    orderList: {},
+    orderList: [],
     orderUser: {},
     orderDetail: {},
     isLoading: false,

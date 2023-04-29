@@ -31,41 +31,43 @@
       />
     </div>
     <div class="flex justify-center mt-10">
-      <button
-        class="mr-20 btn btn--primary text-2xl p-3 w-96"
-        :class="{ disabled: isDisabled }"
+      <n-button
+        class="mr-20 custom-button !py-8 w-1/5 !text-3xl"
         @click="handleCreate"
+        :loading="loading"
+        :disabled="isDisabled"
       >
         Create Category
-      </button>
+      </n-button>
     </div>
   </div>
 </template>
 <script>
-import { reactive, computed } from "vue";
+import { reactive, computed, ref } from "vue";
 import { useStore } from "vuex";
 
 export default {
   setup() {
     const store = useStore();
-
+    const loading = ref(false);
     const dataCreate = reactive({
       name: "",
       description: "",
     });
 
     const handleCreate = () => {
+      loading.value = true;
       store.dispatch("categories/postCategoryAction", dataCreate);
     };
     const isDisabled = computed(() => {
       return !dataCreate.name || !dataCreate.description;
     });
-    return { dataCreate, handleCreate, isDisabled };
+    return { loading, dataCreate, handleCreate, isDisabled };
   },
 };
 </script>
 <style lang="css">
-.card {
+/* .card {
   background-color: rgb(255, 255, 255);
   color: rgb(33, 43, 54);
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -79,5 +81,5 @@ export default {
   padding: 24px;
   width: 50%;
   margin: 0 auto;
-}
+} */
 </style>

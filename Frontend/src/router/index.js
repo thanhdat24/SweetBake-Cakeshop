@@ -6,6 +6,8 @@ import Profile from "../views/Profile.vue";
 import CakeDetail from "../views/CakeDetail.vue";
 import Dashboard from "../views/Dashboard/Dashboard.vue";
 import Cakes from "../views/Dashboard/Cakes/CakeList.vue";
+import EditCake from "../views/Dashboard/Cakes/Edit.vue";
+import CreateCake from "../views/Dashboard/Cakes/Create.vue";
 import CreateCategory from "../views/Dashboard/Categories/Create.vue";
 import EditCategory from "../views/Dashboard/Categories/Edit.vue";
 import Categories from "../views/Dashboard/Categories/CategoryList.vue";
@@ -76,6 +78,16 @@ const router = createRouter({
           name: "cakes",
           path: "/admin/cakes",
           component: Cakes,
+        },
+        {
+          name: "newCake",
+          path: "/admin/cakes/new",
+          component: CreateCake,
+        },
+        {
+          name: "editCake",
+          path: "/admin/cakes/:cakeName/edit",
+          component: EditCake,
         },
         {
           name: "categories",

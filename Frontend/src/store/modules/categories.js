@@ -69,7 +69,7 @@ const actions = {
     commit("setDeleteCategoryMutation", response);
   },
   async editCategoryAction({ commit }, data) {
-    const response = await editCategory(data.categoryId, data);
+    const response = await editCategory(data.id, data);
     commit("setEditCategoryMutation", response);
   },
 
