@@ -65,8 +65,8 @@ const actions = {
     commit("setCakeByCategoryMutation", response.data.data);
   },
 
-  async getAllCakeListAction({ commit }) {
-    const response = await getAllCake();
+  async getAllCakeListAction({ commit }, payload) {
+    const response = await getAllCake(payload);
     commit("setAllCakeMutation", response.data.data);
   },
 

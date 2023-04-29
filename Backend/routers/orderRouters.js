@@ -9,6 +9,9 @@ router.route("/").get(orderController.getAllOrder);
 
 router.get("/getMeOrder", authController.protect, orderController.getMeOrder);
 
-router.route("/:id").get(orderController.getDetailOrder);
+router
+  .route("/:id")
+  .get(orderController.getDetailOrder)
+  .patch(orderController.updateOrder);
 
 module.exports = router;

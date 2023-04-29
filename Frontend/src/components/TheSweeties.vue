@@ -11,12 +11,14 @@
         />
       </div>
 
+      <n-pagination class="mt-10" v-model:page="page" :page-count="8" />
+
       <!-- Page number -->
     </section>
   </div>
 </template>
 <script>
-import { computed } from "vue";
+import { computed, ref, watch } from "vue";
 import { useStore } from "vuex";
 import SweetiesItem from "../components/SweetiesItem.vue";
 export default {
@@ -24,8 +26,16 @@ export default {
   setup() {
     const store = useStore();
     const cakeList = computed(() => store.state.cakes.cakeList);
-    console.log("cakeList", cakeList);
+    const page = ref(1);
+    console.log("page", page);
+    watch(
+      () => page.value,
+      (newVal, oldVal) => {
+        store.dispatch("cakes/getAllCakeListAction", newVal);
+      }
+    );
     return {
+      page,
       cakeList,
     };
   },

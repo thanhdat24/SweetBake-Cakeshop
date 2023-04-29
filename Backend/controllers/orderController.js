@@ -111,3 +111,5 @@ exports.createOrder = catchAsync(async (req, res, next) => {
     res.status(400).json({ message: err });
   }
 });
+
+exports.updateOrder = factory.updateOne(Order);

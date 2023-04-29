@@ -7,9 +7,13 @@
       <a>{{ cake.name }}</a>
     </div>
     <div class="sweeties__item__prices items-center">
-      <div class="sweeties__item__price">{{ cake.price }}</div>
+      <div class="sweeties__item__price">
+        {{ formatPriceInVND(cake.price) }}
+      </div>
 
-      <div class="sweeties__item__original-price">{{ cake.priceSale }}</div>
+      <div class="sweeties__item__original-price">
+        {{ formatPriceInVND(cake.priceSale) }}
+      </div>
     </div>
     <button class="btn btn--secondary" @click.prevent="handleAddToCart">
       Add to cart +
@@ -20,6 +24,7 @@
 import { useMessage } from "naive-ui";
 import { useRoute } from "vue-router";
 import { useStore } from "vuex";
+import { formatPriceInVND } from "../utils/formatNumber";
 export default {
   props: {
     cake: {
@@ -34,7 +39,7 @@ export default {
       await store.dispatch("carts/addToCartAction", props.cake);
       message.success("Thêm sản phẩm thành công");
     };
-    return { handleAddToCart };
+    return { handleAddToCart, formatPriceInVND };
   },
 };
 </script>

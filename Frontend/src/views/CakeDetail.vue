@@ -26,10 +26,10 @@
           </div>
           <div class="flex items-center">
             <div class="book-detail__info__price !mr-10">
-              {{ cakeDetail.price }}
+              {{ formatPriceInVND(cakeDetail.price) }}
             </div>
             <div class="book-detail__info__price__sale line-through">
-              {{ cakeDetail.priceSale }}
+              {{ formatPriceInVND(cakeDetail.priceSale) }}
             </div>
           </div>
           <div class="book-detail__info__detail">
@@ -63,7 +63,7 @@ import { useMessage } from "naive-ui";
 import { computed } from "vue";
 import { useRoute } from "vue-router";
 import { useStore } from "vuex";
-
+import { formatPriceInVND } from "../utils/formatNumber";
 export default {
   setup() {
     const route = useRoute();
@@ -77,7 +77,7 @@ export default {
       await store.dispatch("carts/addToCartAction", cakeDetail);
       message.success("Thêm sản phẩm thành công");
     };
-    return { cakeDetail, handleAddToCart };
+    return { formatPriceInVND, cakeDetail, handleAddToCart };
   },
 };
 </script>

@@ -4,6 +4,7 @@ const cakeImages = require("../models/cakeImagesModel");
 const catchAsync = require("../utils/catchAsync");
 const { paramCase, capitalCase } = require("change-case");
 const CakeImages = require("../models/cakeImagesModel");
+const mongoosePaginate = require("mongoose-paginate-v2");
 
 exports.updateCake = catchAsync(async (req, res, next) => {
   const _id = req.params.id;
@@ -81,9 +82,16 @@ exports.getCakeDetail = catchAsync(async (req, res, next) => {
 });
 
 exports.getAllCake = catchAsync(async (req, res, next) => {
-  let query = Cake.find(req.query)
+  const page = parseInt(req.query.page) || 1;
+  const limit = 8;
+  const skip = (page - 1) * limit;
+
+  let query = Cake.find()
     .sort({ "categoryId.name": 1 })
-    .populate("cakeImages");
+    .populate("cakeImages")
+    .skip(skip)
+    .limit(limit);
+
   const doc = await query;
 
   const filteredCakes = doc.map((cake) => ({
@@ -101,6 +109,7 @@ exports.getAllCake = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: "success",
     result: filteredCakes.length,
+    page,
     data: filteredCakes,
   });
 });

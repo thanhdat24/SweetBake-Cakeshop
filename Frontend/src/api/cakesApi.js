@@ -1,11 +1,10 @@
 import axios from "./axios";
-
 export const getCakeByCategory = (categoryName) => {
   return axios.get(`/api/v1/cakes/getCakeByCate?categoryName=${categoryName}`);
 };
 
-export const getAllCake = () => {
-  return axios.get("/api/v1/cakes");
+export const getAllCake = (page) => {
+  return axios.get(`/api/v1/cakes?page=${page}`);
 };
 
 export const getCakeDetail = (cakeName) => {
@@ -28,6 +27,6 @@ export const postCake = (data) => {
 export const editCake = (id, data) => {
   return axios.put(`api/v1/cakes/${id}`, data);
 };
-export const deleteCake= (id) => {
+export const deleteCake = (id) => {
   return axios.delete(`api/v1/cakes/${id}`);
 };
