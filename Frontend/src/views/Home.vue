@@ -4,7 +4,7 @@
   <!-- wrapper category -->
   <TheCategories></TheCategories>
   <!-- wrapper best seller -->
-  <TheBestSeller></TheBestSeller>
+  <!-- <TheBestSeller></TheBestSeller> -->
   <!-- wrapper sweeties -->
   <TheSweeties></TheSweeties>
 </template>

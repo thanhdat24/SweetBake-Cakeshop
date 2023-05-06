@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="profile__item">
-        <form action="" method="post" class="profile__info">
+        <div action="" method="post" class="profile__info">
           <input hidden type="text" name="MSKH" value="" />
           <label for="name">Full Name: </label>
           <n-input
@@ -52,10 +52,14 @@
             placeholder="Address"
             size="large"
           />
-          <button name="btn_update" class="btn btn--primary">
+          <button
+            name="btn_update"
+            class="btn btn--primary"
+            @click="updateUserInfo"
+          >
             Update Info
           </button>
-        </form>
+        </div>
       </div>
     </div>
     <div class="profile__order">
@@ -74,6 +78,7 @@
   </div>
 </template>
 <script>
+import { useMessage } from "naive-ui";
 import { computed, ref, watch } from "vue";
 import { useStore } from "vuex";
 import OrderItem from "../components/OrderItem.vue";
@@ -81,19 +86,24 @@ export default {
   components: { OrderItem },
   setup() {
     const store = useStore();
+    const message = useMessage();
     const page = ref(1);
     store.dispatch("auths/loadUser");
     store.dispatch("orders/getMeOrderAction");
     const userLogin = computed(() => store.state.auths.userLogin);
     const orderUser = computed(() => store.state.orders.orderUser);
     console.log("orderUser", orderUser);
+    const updateUserInfo = () => {
+      store.dispatch("users/updateMeAction", userLogin.value);
+      message.success("Update success!");
+    };
     watch(
       () => page.value,
       (newVal, oldVal) => {
         store.dispatch("orders/getMeOrderAction", newVal);
       }
     );
-    return { page, userLogin, orderUser };
+    return { updateUserInfo, page, userLogin, orderUser };
   },
 };
 </script>
@@ -123,7 +133,7 @@ export default {
       font-weight: bold;
       font-family: "Nunito", sans-serif;
     }
-    &__item form {
+    &__item .profile__info {
       display: grid;
       grid-template-columns: 0.5fr 1fr;
       grid-auto-flow: row;

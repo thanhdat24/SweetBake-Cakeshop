@@ -1,7 +1,11 @@
 <template lang="">
   <div class="signup__background">
     <div class="signup__img">
-      <img src="./public/img/banner_kovi.svg" alt="banner" />
+      <img
+        class="rounded-3xl"
+        src="https://res.cloudinary.com/movie-app-dat/image/upload/v1682754478/sweet-bake/kiksa7qnsoimrhfcdxnc.webp"
+        alt="banner"
+      />
     </div>
     <Form
       id="signupForm"
@@ -9,10 +13,9 @@
       @submit="handleRegister"
       :validation-schema="registerFormSchema"
     >
-      <img class="signup__form__logo" src="./public/img/book.png" alt="logo" />
       <h1 class="signup__form__title">
         Sign up <br />
-        <span style="padding: 10px 0">Dat's Bookstore</span>
+        <span style="padding: 10px 0">Geek's Bakery!</span>
       </h1>
       <p>
         <span class="login-error" v-if="registerError">{{

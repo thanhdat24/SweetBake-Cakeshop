@@ -5,14 +5,14 @@
         <router-link to="/" class="header__logo">
           <img src="../assets/logo.png" alt="logo" />
         </router-link>
-        <form class="header__search" action="?page=search" method="post">
+        <!-- <form class="header__search" action="?page=search" method="post">
           <input type="text" name="key" placeholder="Tìm kiếm bánh..." /><input
             type="image"
             class="header__search__icon"
             src="src/assets/search.svg"
             alt="Search icon"
           />
-        </form>
+        </form> -->
 
         <div class="header__user flex items-center justify-center">
           <div class="header__user__cart !mr-14">

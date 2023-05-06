@@ -88,13 +88,16 @@ exports.getAllCake = catchAsync(async (req, res, next) => {
 
   const count = await Cake.countDocuments();
   const totalPages = Math.ceil(count / limit);
-
-  let query = Cake.find()
-    .sort({ "categoryId.name": 1 })
-    .populate("cakeImages")
-    .skip(skip)
-    .limit(limit);
-
+  let query;
+  if (req.query.page !== "undefined") {
+    query = Cake.find()
+      .sort({ "categoryId.name": 1 })
+      .populate("cakeImages")
+      .skip(skip)
+      .limit(limit);
+  } else {
+    query = Cake.find().sort({ "categoryId.name": 1 }).populate("cakeImages");
+  }
   const doc = await query;
 
   const filteredCakes = doc.map((cake) => ({

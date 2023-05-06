@@ -1,14 +1,17 @@
 <template lang="">
   <div class="login__background">
     <div class="login__img">
-      <img src="./public/img/banner_kovi.svg" alt="banner" />
+      <img
+        class="rounded-3xl"
+        src="https://res.cloudinary.com/movie-app-dat/image/upload/v1682751526/sweet-bake/yzxnvrcxi73rnkdssuxg.webp"
+        alt="banner"
+      />
     </div>
     <Form
       class="login__form"
       @submit="handleLogin"
       :validation-schema="loginFormSchema"
     >
-      <img class="login__form__logo" src="./public/img/book.png" alt="logo" />
       <h1 class="login__form__title">
         Login<br />
         <span class="py-2">Geek's Bakery!</span>
@@ -70,7 +73,6 @@ export default {
     });
     const router = useRouter();
     const store = useStore();
-
     const loginError = computed(() => store.state.auths.loginError);
     const registerSuccess = computed(() => store.state.auths.registerSuccess);
 

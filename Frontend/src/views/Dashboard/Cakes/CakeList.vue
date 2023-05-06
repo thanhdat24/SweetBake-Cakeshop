@@ -19,7 +19,7 @@
       <n-space vertical :size="12">
         <n-data-table
           :columns="columns"
-          :data="data"
+          :data="cakeList.data"
           :pagination="pagination"
           :bordered="false"
         />
@@ -83,7 +83,6 @@ export default {
     return {
       actionEdit,
       cakeList,
-      data: cakeList,
       columns: [
         {
           title: "Name",

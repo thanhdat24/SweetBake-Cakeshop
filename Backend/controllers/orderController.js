@@ -14,24 +14,34 @@ exports.getMeOrder = catchAsync(async (req, res, next) => {
   const limit = 4;
   const skip = (page - 1) * limit;
 
-  const orders = await Order.find({ userId: req.user.id })
+  const ordersPromise = Order.find({ userId: req.user.id })
     .sort({ createdAt: -1 })
     .populate("orderDetail")
     .skip(skip)
     .limit(limit);
 
-const totalOrders = await Order.countDocuments({ userId: req.user.id });
-const totalPages = Math.ceil(totalOrders / limit);
-  // filterDoc.sort((a, b) => b.createdAt - a.createdAt);
+  const totalOrdersPromise = Order.countDocuments({ userId: req.user.id });
+
+  const [orders, totalOrders] = await Promise.all([
+    ordersPromise,
+    totalOrdersPromise,
+  ]);
+
   // thêm vào trường cakeImage trong model cakeImage
-  for (let order of orders) {
-    for (let cake of order.orderDetail) {
-      const image = await CakeImages.findOne({ cakeId: cake.cakeId.id });
-      if (image) {
-        cake.cakeImage = image.url;
-      }
-    }
-  }
+  await Promise.all(
+    orders.map(async (order) => {
+      await Promise.all(
+        order.orderDetail.map(async (cake) => {
+          const image = await CakeImages.findOne({ cakeId: cake.cakeId.id });
+          if (image) {
+            cake.cakeImage = image.url;
+          }
+        })
+      );
+    })
+  );
+
+  const totalPages = Math.ceil(totalOrders / limit);
 
   res.status(200).json({
     status: "success",

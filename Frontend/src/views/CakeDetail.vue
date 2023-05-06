@@ -47,13 +47,13 @@
         </div>
       </div>
       <div class="book-detail__content">
-        <p class="book-detail__content__title">Sơ lược bánh</p>
+        <p class="book-detail__content__title">Cake summary</p>
         <p class="book-detail__content__content">
           {{ cakeDetail.description }}
         </p>
       </div>
 
-      <h3>Đánh Giá - Nhận Xét Từ Khách Hàng</h3>
+      <h3>Customer Reviews - Testimonials</h3>
     </div>
   </section>
   <!-- end wrapper detail seller-->

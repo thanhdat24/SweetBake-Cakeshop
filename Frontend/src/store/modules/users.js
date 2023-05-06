@@ -1,4 +1,4 @@
-import { getAllUser } from "../../api/userApi";
+import { getAllUser, updateMe } from "../../api/userApi";
 
 const state = () => {
   return {
@@ -10,12 +10,19 @@ const mutations = {
   setAllUserMutation(state, payload) {
     state.userList = payload;
   },
+  setUpdateMeMutation(state, payload) {
+    localStorage.setItem("userLogin", JSON.stringify(payload));
+  },
 };
 
 const actions = {
   async getAlUserListAction({ commit }) {
     const response = await getAllUser();
     commit("setAllUserMutation", response.data.data);
+  },
+  async updateMeAction({ commit }, payload) {
+    const response = await updateMe(payload);
+    commit("setUpdateMeMutation", response.data.data);
   },
 };
 

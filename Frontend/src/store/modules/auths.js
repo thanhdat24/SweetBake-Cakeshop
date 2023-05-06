@@ -36,7 +36,12 @@ const actions = {
   async postLoginAction({ commit }, { data, router }) {
     try {
       const response = await postLogin(data);
-      router.push("/");
+      console.log("response.data", response.data);
+      if (response.data.user.role === "Quản trị") {
+        router.push("/admin/categories");
+      } else {
+        router.push("/");
+      }
       commit("setLoginMutation", response.data);
     } catch (error) {
       commit("setLoginErrorMutation", error.message);

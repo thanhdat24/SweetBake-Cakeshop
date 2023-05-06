@@ -78,7 +78,7 @@ export default defineComponent({
                 style: {
                   marginRight: "6px",
                 },
-                type: row.role === "Admin" ? "error" : "info",
+                type: row.role === "Quản trị" ? "error" : "info",
                 bordered: false,
               },
               {

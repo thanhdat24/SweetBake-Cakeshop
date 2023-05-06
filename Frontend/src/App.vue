@@ -2,7 +2,6 @@
 import { RouterView } from "vue-router";
 import TheFooter from "./components/TheFooter.vue";
 import TheHeader from "./components/TheHeader.vue";
-import ModelLoading from "./components/ModelLoading.vue";
 
 import { computed } from "vue";
 import { useRoute } from "vue-router";

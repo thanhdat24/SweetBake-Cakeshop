@@ -14,12 +14,17 @@
     </td>
     <td>{{ formatPriceInVND(cart.price) }}</td>
     <td>
-      <n-input-number
-        v-model:value="quantity"
-        :validator="validator"
-        @update:value="handleChangeQuantity($event, cart)"
-        class="w-32"
-      />
+      <div class="flex items-center flex-col">
+        <n-input-number
+          v-model:value="quantity"
+          :validator="validator"
+          @update:value="handleChangeQuantity($event, cart)"
+          class="w-32"
+          :min="1"
+          :max="cart.stock"
+        />
+        <p class="pt-5 text-2xl">Stock: {{ cart.stock }}</p>
+      </div>
     </td>
     <td id="total-price-1" class="product-item-cart__total-price">
       {{ formatPriceInVND(cart.price * quantity) }}

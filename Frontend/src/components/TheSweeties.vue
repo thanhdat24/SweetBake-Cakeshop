@@ -32,9 +32,11 @@ export default {
     const cakeList = computed(() => store.state.cakes.cakeList);
     const page = ref(1);
     console.log("page", page);
+    store.dispatch("cakes/getAllCakeListAction", page);
     watch(
       () => page.value,
       (newVal, oldVal) => {
+        console.log("newVal", newVal);
         store.dispatch("cakes/getAllCakeListAction", newVal);
       }
     );

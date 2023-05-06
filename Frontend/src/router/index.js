@@ -17,7 +17,7 @@ import CategoryDetail from "../views/CakeCategoryDetail.vue";
 import OrderDetail from "../views/OrderDetail.vue";
 import Cart from "../views/Cart.vue";
 import Checkout from "../views/Checkout.vue";
-
+import NotFound from "../views/NotFound.vue";
 // views for Admin layout
 
 const router = createRouter({
@@ -116,6 +116,8 @@ const router = createRouter({
         },
       ],
     },
+    { path: "/:pathMatch(.*)*", name: "NotFound", component: NotFound },
+
     // {
     //   path: "/about",
     //   name: "about",
